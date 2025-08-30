@@ -26,7 +26,8 @@ export type ExportTheme =
   | 'modern_typo'
   | 'euro_cv'
   | 'visual'
-  | 'basic_worker_layout';
+  | 'basic_worker_layout'
+  | 'print_friendly';
 
 export type ExportLanguage =
   | 'english'

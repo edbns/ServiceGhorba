@@ -2,6 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
 import { CVData, CVFormat } from '@/utils/formatHelpers';
 
+// Speech Recognition types
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    SpeechRecognition: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    webkitSpeechRecognition: any;
+  }
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: {
+    [key: number]: {
+      [key: number]: {
+        transcript: string;
+      };
+    };
+  };
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+}
+
 interface ChatBotProps {
   type: 'cv' | 'motivation_letter' | 'basic_motivation';
   format?: CVFormat;
@@ -32,6 +56,8 @@ export default function ChatBot({ type, format, onComplete, initialData = {} }: 
   const [currentInput, setCurrentInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
 
   // Initialize responses and chat
   useEffect(() => {
@@ -68,10 +94,47 @@ export default function ChatBot({ type, format, onComplete, initialData = {} }: 
       content: `Hello! I'm here to help you create a professional ${type === 'cv' ? 'CV' : 'motivation letter'}. Let's start with some basic information. ${prompts[0].question}`,
       timestamp: new Date()
     }]);
+
+    // Check for speech recognition support
+    if (typeof window !== 'undefined') {
+      setSpeechSupported('webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+    }
   }, [initialData, type, prompts]);
 
   const currentPrompt = prompts[currentStep];
   const isLastStep = currentStep === prompts.length - 1;
+
+  const startListening = () => {
+    if (!speechSupported) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const transcript = event.results[0][0].transcript;
+      setCurrentInput(prev => prev + (prev ? ' ' : '') + transcript);
+    };
+
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      console.error('Speech recognition error:', event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
 
   const handleSendMessage = () => {
     if (!currentInput.trim()) return;
@@ -270,6 +333,23 @@ export default function ChatBot({ type, format, onComplete, initialData = {} }: 
             </div>
             
             <div className="flex space-x-2">
+              {speechSupported && (
+                <button
+                  onClick={startListening}
+                  disabled={isListening}
+                  className={`px-4 py-3 rounded-lg transition-colors ${
+                    isListening 
+                      ? 'bg-red-500 text-white' 
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                  }`}
+                  title={isListening ? 'Listening...' : 'Speak your answer'}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                </button>
+              )}
+              
               <button
                 onClick={handleSkip}
                 className="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors"

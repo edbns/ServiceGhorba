@@ -12,6 +12,9 @@ export default function HomePage() {
               <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
             </div>
             <div className="flex items-center space-x-8">
+              <Link href="/review" className="text-gray-600 hover:text-primary transition-colors font-medium">
+                Review CV
+              </Link>
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 Blog
               </Link>

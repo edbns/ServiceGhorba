@@ -51,9 +51,24 @@ export const handler: Handler = async (event) => {
         userPrompt = `Create a compelling motivation letter based on this information:\n\n${JSON.stringify(data, null, 2)}`;
         break;
       
+      case 'basic_motivation':
+        systemPrompt = systemPrompts.simpleLetter;
+        userPrompt = `Create a simple, easy-to-understand motivation letter based on this information:\n\n${JSON.stringify(data, null, 2)}`;
+        break;
+      
       case 'improve':
         systemPrompt = systemPrompts.contentImprovement;
         userPrompt = `Improve this content:\n\n${data.content}`;
+        break;
+      
+      case 'skill_translation':
+        systemPrompt = systemPrompts.skillTranslation;
+        userPrompt = `Convert this job description into 3-5 professional CV bullet points:\n\n"${data.jobDescription}"`;
+        break;
+      
+      case 'cv_review':
+        systemPrompt = systemPrompts.cvReview;
+        userPrompt = `Review this CV and provide feedback:\n\n${data.content}`;
         break;
       
       default:

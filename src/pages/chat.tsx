@@ -3,6 +3,10 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import ChatBot from '@/components/ChatBot';
 import CVFormatSelector, { CVFormat } from '@/components/CVFormatSelector';
+import BuddyModeBanner from '@/components/BuddyModeBanner';
+import QuickJobSelector, { JobTemplate } from '@/components/QuickJobSelector';
+import SkillTranslator from '@/components/SkillTranslator';
+import CountryBasedSelector from '@/components/CountryBasedSelector';
 import { CVData } from '@/utils/formatHelpers';
 
 export default function ChatPage() {
@@ -51,6 +55,9 @@ export default function ChatPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Buddy Mode Banner */}
+      <BuddyModeBanner />
+      
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-100">
         <div className="container">
@@ -128,6 +135,38 @@ export default function ChatPage() {
                 onChange={setSelectedFormat}
               />
             </div>
+          )}
+
+          {/* Helper Tools */}
+          {documentType === 'cv' && (
+            <>
+              <CountryBasedSelector
+                onCountrySelected={(format) => {
+                  setSelectedFormat(format);
+                  sessionStorage.setItem('selectedFormat', format);
+                }}
+              />
+              
+              <QuickJobSelector
+                onJobSelected={(template: JobTemplate) => {
+                  setInitialData(prev => ({
+                    ...prev,
+                    title: template.title,
+                    summary: template.summary,
+                    skills: template.skills
+                  }));
+                }}
+              />
+              
+              <SkillTranslator
+                onTranslated={(skills: string[]) => {
+                  setInitialData(prev => ({
+                    ...prev,
+                    skills: [...(prev.skills || []), ...skills]
+                  }));
+                }}
+              />
+            </>
           )}
 
           {/* Chat Interface */}

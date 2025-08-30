@@ -638,6 +638,134 @@ export function buildExportHTML(data: CVData, theme: ExportTheme): string {
         </html>
       `;
 
+    case 'print_friendly':
+      return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              font-size: 18px;
+              line-height: 1.6; 
+              color: #000; 
+              max-width: 800px; 
+              margin: 0 auto; 
+              padding: 20px;
+              background: white;
+            }
+            .header { 
+              margin-bottom: 30px; 
+              text-align: center;
+              border-bottom: 3px solid #000;
+              padding-bottom: 20px;
+            }
+            .header h1 { 
+              font-size: 32px; 
+              font-weight: bold; 
+              margin: 0 0 10px 0;
+              color: #000;
+              text-transform: uppercase;
+            }
+            .header h2 { 
+              font-size: 22px; 
+              font-weight: normal; 
+              margin: 0;
+              color: #000;
+            }
+            .section { 
+              margin-bottom: 30px; 
+              page-break-inside: avoid;
+            }
+            .section-title { 
+              font-size: 22px; 
+              font-weight: bold; 
+              margin-bottom: 15px;
+              color: #000;
+              text-transform: uppercase;
+              border-bottom: 2px solid #000;
+              padding-bottom: 5px;
+            }
+            .contact-info { 
+              font-size: 18px; 
+              line-height: 1.8; 
+              text-align: center;
+              margin-bottom: 20px;
+            }
+            .contact-item { 
+              margin-bottom: 5px; 
+              font-weight: bold;
+            }
+            .skills { 
+              font-size: 18px;
+              line-height: 1.8;
+            }
+            .experience-item, .education-item { 
+              margin-bottom: 25px; 
+              page-break-inside: avoid;
+              border-bottom: 1px solid #ccc;
+              padding-bottom: 15px;
+            }
+            .job-title { 
+              font-weight: bold; 
+              font-size: 20px; 
+              color: #000;
+              margin-bottom: 5px;
+              text-transform: uppercase;
+            }
+            .company { 
+              font-size: 18px;
+              font-weight: bold; 
+              margin-bottom: 5px;
+            }
+            .date { 
+              color: #333; 
+              font-size: 16px; 
+              margin-bottom: 10px;
+              font-weight: bold;
+            }
+            .description {
+              font-size: 18px;
+              line-height: 1.6;
+            }
+            .description ul {
+              margin: 10px 0;
+              padding-left: 20px;
+            }
+            .description li {
+              margin-bottom: 8px;
+              font-size: 18px;
+            }
+            @media print {
+              body { 
+                font-size: 16px; 
+                margin: 10px;
+                padding: 10px;
+              }
+              .header h1 { font-size: 28px; }
+              .section-title { font-size: 20px; }
+              .job-title { font-size: 18px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${data.name || 'YOUR NAME'}</h1>
+            ${data.title ? `<h2>${data.title.toUpperCase()}</h2>` : ''}
+          </div>
+          ${buildContactSection(data)}
+          ${buildSummarySection(data)}
+          ${buildSkillsSection(data)}
+          ${buildExperienceSection(data)}
+          ${buildEducationSection(data)}
+          ${buildLanguagesSection(data)}
+          ${buildExtrasSection(data)}
+          ${data.jobReference ? buildReferenceSection(data) : ''}
+        </body>
+        </html>
+      `;
+
     default:
       return buildExportHTML(data, 'clean');
   }

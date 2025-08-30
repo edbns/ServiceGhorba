@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ExportTheme = 'clean' | 'blue_boxed' | 'sidebar' | 'minimal_line' | 'modern_typo' | 'euro_cv' | 'visual' | 'basic_worker_layout';
+export type ExportTheme = 'clean' | 'blue_boxed' | 'sidebar' | 'minimal_line' | 'modern_typo' | 'euro_cv' | 'visual' | 'basic_worker_layout' | 'print_friendly';
 
 const themeLabels: Record<ExportTheme, string> = {
   clean: 'Minimal Clean',
@@ -10,7 +10,8 @@ const themeLabels: Record<ExportTheme, string> = {
   modern_typo: 'Modern Typography',
   euro_cv: 'European Style',
   visual: 'Visual Portfolio',
-  basic_worker_layout: 'Easy to Read'
+  basic_worker_layout: 'Easy to Read',
+  print_friendly: 'Print Shop Ready'
 };
 
 const themeDescriptions: Record<ExportTheme, string> = {
@@ -21,7 +22,8 @@ const themeDescriptions: Record<ExportTheme, string> = {
   modern_typo: 'Typography-focused modern design',
   euro_cv: 'Traditional European CV styling',
   visual: 'Creative visual layout for portfolios',
-  basic_worker_layout: 'Large fonts, simple layout, print-friendly for any job'
+  basic_worker_layout: 'Large fonts, simple layout, print-friendly for any job',
+  print_friendly: 'Black & white, large fonts, perfect for printing and job handouts'
 };
 
 interface ExportThemeSelectorProps {
