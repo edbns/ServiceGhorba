@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
-import { guidedCVPrompts_en } from '@/prompts/cv_chat_prompts.en';
-import { guidedCVPrompts_fr } from '@/prompts/cv_chat_prompts.fr';
-import { guidedCVPrompts_ar } from '@/prompts/cv_chat_prompts.ar';
+import { multilingualCVPrompts } from '@/prompts/multilingualPrompts';
 import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData, CVFormat } from '@/utils/formatHelpers';
 
@@ -56,17 +54,8 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
     if (format && serviceWorkerFormats.includes(format)) {
       prompts = basicWorkerPrompts; // Keep basic worker prompts in English for now
     } else {
-      // Use language-specific prompts for regular CV
-      switch (language) {
-        case 'fr':
-          prompts = guidedCVPrompts_fr;
-          break;
-        case 'ar':
-          prompts = guidedCVPrompts_ar;
-          break;
-        default:
-          prompts = guidedCVPrompts_en;
-      }
+      // Use consolidated multilingual prompts
+      prompts = multilingualCVPrompts[language] || multilingualCVPrompts.en;
     }
   } else {
     // For motivation letters, use simple prompts if simple style is selected

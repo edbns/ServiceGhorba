@@ -48,6 +48,7 @@ const translations = {
     'formats.choose_theme': 'Choose Export Theme',
     'formats.choose_language': 'Choose Export Language',
     'formats.format_info': 'Format Information',
+    'formats.format_info_desc': 'Each format follows regional standards and expectations.',
     'formats.theme_info': 'Theme Information',
     'formats.language_info': 'Language Support',
     
@@ -182,6 +183,7 @@ const translations = {
     'formats.choose_theme': 'Choisir le thème d\'exportation',
     'formats.choose_language': 'Choisir la langue d\'exportation',
     'formats.format_info': 'Informations sur le format',
+    'formats.format_info_desc': 'Chaque format suit les normes et attentes régionales.',
     'formats.theme_info': 'Informations sur le thème',
     'formats.language_info': 'Support linguistique',
     
@@ -277,6 +279,7 @@ const translations = {
     'formats.choose_theme': 'اختر موضوع التصدير',
     'formats.choose_language': 'اختر لغة التصدير',
     'formats.format_info': 'معلومات التنسيق',
+    'formats.format_info_desc': 'كل تنسيق يتبع المعايير والتوقعات الإقليمية.',
     'formats.theme_info': 'معلومات الموضوع',
     'formats.language_info': 'الدعم اللغوي',
     

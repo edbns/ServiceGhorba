@@ -118,9 +118,9 @@ export default function CVFormatSelector({ value, onChange, className = '' }: CV
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div>
-            <h4 className="font-medium text-blue-900 mb-2">Format Information</h4>
+            <h4 className="font-medium text-blue-900 mb-2">{t('formats.format_info')}</h4>
             <p className="text-sm text-blue-800">
-              {formatDescriptions[value]} Each format follows regional standards and expectations.
+              {formatDescriptions[value]} {t('formats.format_info_desc')}
             </p>
           </div>
         </div>
