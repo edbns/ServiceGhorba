@@ -4,12 +4,14 @@ import Link from 'next/link';
 import CVPreview from '@/components/CVPreview';
 import ExportButtons from '@/components/ExportButtons';
 import CVFormatSelector, { CVFormat } from '@/components/CVFormatSelector';
+import ExportThemeSelector, { ExportTheme } from '@/components/ExportThemeSelector';
 import { CVData, applyFormatRules } from '@/utils/formatHelpers';
 
 export default function ResultPage() {
   const router = useRouter();
   const [cvData, setCvData] = useState<CVData | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
+  const [selectedTheme, setSelectedTheme] = useState<ExportTheme>('clean');
   const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
   const [isEditing, setIsEditing] = useState(false);
   const [editableData, setEditableData] = useState<CVData | null>(null);
@@ -18,6 +20,7 @@ export default function ResultPage() {
     // Load generated data from session storage
     const generatedData = sessionStorage.getItem('generatedCV');
     const savedFormat = sessionStorage.getItem('selectedFormat');
+    const savedTheme = sessionStorage.getItem('selectedTheme');
     const savedDocType = sessionStorage.getItem('documentType');
     
     if (generatedData) {
@@ -33,6 +36,10 @@ export default function ResultPage() {
       setSelectedFormat(savedFormat as CVFormat);
     }
     
+    if (savedTheme) {
+      setSelectedTheme(savedTheme as ExportTheme);
+    }
+    
     if (savedDocType) {
       setDocumentType(savedDocType as 'cv' | 'motivation_letter');
     }
@@ -41,6 +48,11 @@ export default function ResultPage() {
   const handleFormatChange = (newFormat: CVFormat) => {
     setSelectedFormat(newFormat);
     sessionStorage.setItem('selectedFormat', newFormat);
+  };
+
+  const handleThemeChange = (newTheme: ExportTheme) => {
+    setSelectedTheme(newTheme);
+    sessionStorage.setItem('selectedTheme', newTheme);
   };
 
   const handleSaveEdits = () => {
@@ -155,11 +167,21 @@ export default function ResultPage() {
                 </div>
               )}
 
+              {/* Theme Selector */}
+              <div className="card">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Export Theme</h3>
+                <ExportThemeSelector
+                  value={selectedTheme}
+                  onChange={handleThemeChange}
+                />
+              </div>
+
               {/* Export Options */}
               {formattedData && (
                 <div className="card">
                   <ExportButtons 
                     cvData={formattedData}
+                    theme={selectedTheme}
                     previewElementId="cv-preview"
                   />
                 </div>

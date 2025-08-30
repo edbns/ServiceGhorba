@@ -1,5 +1,6 @@
 import { Handler } from '@netlify/functions';
-import { formatCVAsText, formatCVAsHTML, formatCVAsMarkdown, CVData } from '../../src/utils/formatHelpers';
+import { formatCVAsText, formatCVAsHTML, formatCVAsMarkdown, CVData, ExportTheme } from '../../src/utils/formatHelpers';
+import { buildExportHTML } from '../../src/utils/exportHelpers';
 
 export const handler: Handler = async (event) => {
   // Handle CORS
@@ -22,7 +23,7 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { cvData, format, exportType } = JSON.parse(event.body || '{}');
+    const { cvData, format, exportType, theme } = JSON.parse(event.body || '{}');
 
     if (!cvData || !exportType) {
       return {
@@ -50,7 +51,7 @@ export const handler: Handler = async (event) => {
         break;
       
       case 'html':
-        content = formatCVAsHTML(cvData);
+        content = theme ? buildExportHTML(cvData, theme as ExportTheme) : formatCVAsHTML(cvData);
         mimeType = 'text/html';
         filename = 'cv.html';
         break;

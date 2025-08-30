@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { CVData } from '@/utils/formatHelpers';
-import { exportAsText, exportAsMarkdown, exportAsDocx, exportAsPDF } from '@/utils/exportHelpers';
+import { CVData, ExportTheme } from '@/utils/formatHelpers';
+import { exportAsText, exportAsMarkdown, exportAsDocx, exportAsPDF, buildExportHTML } from '@/utils/exportHelpers';
 
 interface ExportButtonsProps {
   cvData: CVData;
+  theme?: ExportTheme;
   previewElementId?: string;
   className?: string;
 }
 
-export default function ExportButtons({ cvData, previewElementId = 'cv-preview', className = '' }: ExportButtonsProps) {
+export default function ExportButtons({ cvData, theme = 'clean', previewElementId = 'cv-preview', className = '' }: ExportButtonsProps) {
   const [isExporting, setIsExporting] = useState<string | null>(null);
 
   const handleExport = async (type: 'pdf' | 'docx' | 'txt' | 'md') => {
@@ -27,7 +28,7 @@ export default function ExportButtons({ cvData, previewElementId = 'cv-preview',
           const txtResponse = await fetch('/api/export', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cvData, exportType: 'txt' }),
+            body: JSON.stringify({ cvData, exportType: 'txt', theme }),
           });
           const txtResult = await txtResponse.json();
           exportAsText(txtResult.content, 'cv.txt');
@@ -37,7 +38,7 @@ export default function ExportButtons({ cvData, previewElementId = 'cv-preview',
           const mdResponse = await fetch('/api/export', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cvData, exportType: 'md' }),
+            body: JSON.stringify({ cvData, exportType: 'md', theme }),
           });
           const mdResult = await mdResponse.json();
           exportAsMarkdown(mdResult.content, 'cv.md');

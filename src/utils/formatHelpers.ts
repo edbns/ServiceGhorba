@@ -1,4 +1,25 @@
-export type CVFormat = 'canada_resume' | 'canada_academic' | 'europass' | 'europe_custom';
+export type CVFormat =
+  | 'canada_resume'
+  | 'canada_academic'
+  | 'europass'
+  | 'europe_custom'
+  | 'us_resume'
+  | 'uk_cv'
+  | 'germany_cv'
+  | 'japan_rirekisho'
+  | 'australia_resume'
+  | 'academic_cv'
+  | 'creative_portfolio'
+  | 'tech_resume';
+
+export type ExportTheme =
+  | 'clean'
+  | 'blue_boxed'
+  | 'sidebar'
+  | 'minimal_line'
+  | 'modern_typo'
+  | 'euro_cv'
+  | 'visual';
 
 export interface CVData {
   name?: string;
@@ -10,12 +31,15 @@ export interface CVData {
     company: string;
     dates: string;
     description: string;
+    location?: string;
   }>;
   education?: Array<{
     degree: string;
     institution: string;
     dates: string;
     description?: string;
+    gpa?: string;
+    location?: string;
   }>;
   languages?: string[];
   extra?: string;
@@ -23,13 +47,28 @@ export interface CVData {
   gender?: string;
   dateOfBirth?: string;
   nationality?: string;
+  maritalStatus?: string;
+  militaryService?: string;
+  certifications?: string[];
+  publications?: string[];
+  awards?: string[];
+  projects?: Array<{
+    name: string;
+    description: string;
+    technologies?: string[];
+    url?: string;
+  }>;
   contact?: {
     email?: string;
     phone?: string;
     address?: string;
     linkedin?: string;
     website?: string;
+    github?: string;
+    portfolio?: string;
   };
+  requirePhoto?: boolean;
+  preferredFormat?: string;
 }
 
 export function applyFormatRules(cvData: CVData, format: CVFormat): CVData {
@@ -37,27 +76,95 @@ export function applyFormatRules(cvData: CVData, format: CVFormat): CVData {
   
   switch (format) {
     case 'canada_resume': {
-      // Canadian resumes should not include personal information
+      // Canadian resumes exclude personal information
       delete clone.photo;
       delete clone.gender;
       delete clone.dateOfBirth;
       delete clone.nationality;
+      delete clone.maritalStatus;
+      clone.preferredFormat = 'Reverse chronological, 1-2 pages max';
       break;
     }
     case 'canada_academic': {
-      // Canadian academic CVs also exclude personal information
+      // Canadian academic CVs exclude personal information but allow longer format
       delete clone.photo;
       delete clone.gender;
       delete clone.dateOfBirth;
       delete clone.nationality;
+      delete clone.maritalStatus;
+      clone.preferredFormat = 'Academic format, publications and research focus';
+      break;
+    }
+    case 'us_resume': {
+      // US resumes are very strict about personal information
+      delete clone.photo;
+      delete clone.gender;
+      delete clone.dateOfBirth;
+      delete clone.nationality;
+      delete clone.maritalStatus;
+      clone.preferredFormat = '1 page preferred, skills-focused';
+      break;
+    }
+    case 'uk_cv': {
+      // UK CVs exclude personal information but allow longer format
+      delete clone.photo;
+      delete clone.gender;
+      delete clone.dateOfBirth;
+      delete clone.nationality;
+      delete clone.maritalStatus;
+      clone.preferredFormat = '2 pages max, achievement-focused';
+      break;
+    }
+    case 'germany_cv': {
+      // German CVs traditionally include personal information and photo
+      clone.requirePhoto = true;
+      clone.preferredFormat = 'Tabular format with photo, personal details required';
+      break;
+    }
+    case 'japan_rirekisho': {
+      // Japanese Rirekisho format is very specific
+      clone.requirePhoto = true;
+      clone.preferredFormat = 'Standardized format, handwritten preferred, photo required';
+      break;
+    }
+    case 'australia_resume': {
+      // Australian resumes similar to UK/Canada
+      delete clone.photo;
+      delete clone.gender;
+      delete clone.dateOfBirth;
+      delete clone.nationality;
+      delete clone.maritalStatus;
+      clone.preferredFormat = '2-3 pages, results-oriented';
+      break;
+    }
+    case 'academic_cv': {
+      // Academic CVs are comprehensive and detailed
+      clone.preferredFormat = 'Comprehensive academic format, publications and research';
+      break;
+    }
+    case 'creative_portfolio': {
+      // Creative portfolios focus on visual work
+      clone.preferredFormat = 'Visual portfolio format, project showcase';
+      break;
+    }
+    case 'tech_resume': {
+      // Tech resumes focus on skills and projects
+      delete clone.photo;
+      delete clone.gender;
+      delete clone.dateOfBirth;
+      delete clone.nationality;
+      delete clone.maritalStatus;
+      clone.preferredFormat = 'Technical skills and project focus';
       break;
     }
     case 'europass': {
       // Europass format keeps all fields
+      clone.preferredFormat = 'EU standard format, comprehensive';
       break;
     }
     case 'europe_custom': {
       // European custom format - all fields optional
+      clone.preferredFormat = 'Flexible European format';
       break;
     }
     default: 

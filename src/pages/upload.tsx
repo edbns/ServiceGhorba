@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import UploadForm from '@/components/UploadForm';
-import { CVFormat } from '@/components/CVFormatSelector';
+import CVFormatSelector, { CVFormat } from '@/components/CVFormatSelector';
 import { CVData } from '@/utils/formatHelpers';
 
 export default function UploadPage() {
@@ -121,46 +121,10 @@ export default function UploadPage() {
           {/* Format Selection - Inline Radio Buttons */}
           {extractedData && (
             <div className="bg-white rounded-lg border border-gray-200 p-8 mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Choose CV Format</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  { value: 'canada_resume', label: 'Canada Resume', desc: 'No photo or personal details' },
-                  { value: 'canada_academic', label: 'Canada Academic', desc: 'Extended academic format' },
-                  { value: 'europass', label: 'Europass EU', desc: 'Official European standard' },
-                  { value: 'europe_custom', label: 'Europe Custom', desc: 'Flexible European format' }
-                ].map((format) => (
-                  <label
-                    key={format.value}
-                    className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                      selectedFormat === format.value
-                        ? 'border-primary bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="format"
-                      value={format.value}
-                      checked={selectedFormat === format.value}
-                      onChange={(e) => setSelectedFormat(e.target.value as CVFormat)}
-                      className="sr-only"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900">{format.label}</div>
-                      <div className="text-sm text-gray-600">{format.desc}</div>
-                    </div>
-                    <div className={`w-4 h-4 rounded-full border-2 ${
-                      selectedFormat === format.value
-                        ? 'border-primary bg-primary'
-                        : 'border-gray-300'
-                    }`}>
-                      {selectedFormat === format.value && (
-                        <div className="w-full h-full rounded-full bg-white scale-50"></div>
-                      )}
-                    </div>
-                  </label>
-                ))}
-              </div>
+              <CVFormatSelector
+                value={selectedFormat}
+                onChange={setSelectedFormat}
+              />
             </div>
           )}
 

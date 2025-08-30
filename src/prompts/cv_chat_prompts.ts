@@ -31,40 +31,58 @@ export const guidedCVPrompts: ChatPrompt[] = [
     placeholder: 'e.g., +1 (555) 123-4567'
   },
   { 
+    key: 'location', 
+    question: 'What is your current location (city, country)?',
+    type: 'text',
+    placeholder: 'e.g., Toronto, Canada or Berlin, Germany'
+  },
+  { 
     key: 'summary', 
-    question: 'Please provide a short summary of yourself (2–3 sentences)?',
+    question: 'Please provide a professional summary (2–3 sentences)?',
     type: 'textarea',
-    placeholder: 'Describe your professional background and key strengths...'
+    placeholder: 'Describe your professional background, key strengths, and career goals...'
   },
   { 
     key: 'skills', 
-    question: 'What are your key skills? (comma-separated)',
+    question: 'What are your key skills and competencies? (comma-separated)',
     type: 'textarea',
-    placeholder: 'e.g., JavaScript, Python, Project Management, Communication'
+    placeholder: 'e.g., JavaScript, Python, Project Management, Communication, Data Analysis'
   },
   { 
     key: 'experience', 
-    question: 'Tell me about your work experience (roles, companies, dates, and key achievements)?',
+    question: 'Tell me about your work experience (include roles, companies, dates, locations, and key achievements)?',
     type: 'textarea',
-    placeholder: 'List your work experience with role, company, dates, and key achievements...'
+    placeholder: 'List each position with: Job Title at Company Name (Start Date - End Date), Location, and 2-3 bullet points of achievements...'
   },
   { 
     key: 'education', 
-    question: 'What is your education history?',
+    question: 'What is your education background?',
     type: 'textarea',
-    placeholder: 'List your degrees, institutions, and graduation dates...'
+    placeholder: 'List degrees, institutions, graduation dates, GPAs (if strong), and relevant coursework...'
+  },
+  { 
+    key: 'certifications', 
+    question: 'Do you have any professional certifications or licenses? (optional)',
+    type: 'textarea',
+    placeholder: 'e.g., AWS Certified Solutions Architect, PMP, Google Analytics Certified...'
+  },
+  { 
+    key: 'projects', 
+    question: 'Any notable projects or portfolio items to highlight? (optional)',
+    type: 'textarea',
+    placeholder: 'Describe 2-3 key projects with technologies used and outcomes achieved...'
   },
   { 
     key: 'languages', 
-    question: 'What languages do you speak? (optional)',
+    question: 'What languages do you speak and at what proficiency level? (optional)',
     type: 'text',
-    placeholder: 'e.g., English (Native), Spanish (Fluent), French (Intermediate)'
+    placeholder: 'e.g., English (Native), Spanish (Fluent), French (Intermediate), German (Basic)'
   },
   { 
     key: 'extra', 
-    question: 'Any certifications, hobbies, or additional information you\'d like to include? (optional)',
+    question: 'Any additional information like awards, publications, or volunteer work? (optional)',
     type: 'textarea',
-    placeholder: 'e.g., AWS Certified, Photography, Volunteer work...'
+    placeholder: 'e.g., Dean\'s List, Published research papers, Volunteer coordinator...'
   }
 ];
 
