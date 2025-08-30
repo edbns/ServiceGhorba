@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
+import { guidedCVPrompts_en } from '@/prompts/cv_chat_prompts.en';
+import { guidedCVPrompts_fr } from '@/prompts/cv_chat_prompts.fr';
+import { guidedCVPrompts_ar } from '@/prompts/cv_chat_prompts.ar';
 import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData, CVFormat } from '@/utils/formatHelpers';
 
@@ -42,13 +45,29 @@ interface ChatMessage {
 }
 
 export default function ChatBot({ type, format, simpleStyle = false, onComplete, initialData = {} }: ChatBotProps) {
-  const { t } = useSimpleTranslation();
-  // Choose prompts based on type, format, and style
+  const { t, language } = useSimpleTranslation();
+  
+  // Choose prompts based on type, format, style, and language
   let prompts;
   if (type === 'cv') {
     // Use basic prompts for service worker formats
     const serviceWorkerFormats = ['basic_worker', 'delivery_driver', 'waiter_service', 'construction_cv', 'kitchen_helper', 'cleaner_cv'];
-    prompts = format && serviceWorkerFormats.includes(format) ? basicWorkerPrompts : guidedCVPrompts;
+    
+    if (format && serviceWorkerFormats.includes(format)) {
+      prompts = basicWorkerPrompts; // Keep basic worker prompts in English for now
+    } else {
+      // Use language-specific prompts for regular CV
+      switch (language) {
+        case 'fr':
+          prompts = guidedCVPrompts_fr;
+          break;
+        case 'ar':
+          prompts = guidedCVPrompts_ar;
+          break;
+        default:
+          prompts = guidedCVPrompts_en;
+      }
+    }
   } else {
     // For motivation letters, use simple prompts if simple style is selected
     prompts = simpleStyle ? guidedMotivationPrompts : motivationLetterPrompts;

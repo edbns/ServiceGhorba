@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
+import { exportLabels } from '@/utils/exportLabels';
 import { CVData, CVFormat, applyFormatRules } from '@/utils/formatHelpers';
 
 interface CVPreviewProps {
@@ -8,6 +10,8 @@ interface CVPreviewProps {
 }
 
 export default function CVPreview({ cvData, format, className = '' }: CVPreviewProps) {
+  const { language } = useSimpleTranslation();
+  const labels = exportLabels[language] || exportLabels.en;
   const formattedData = applyFormatRules(cvData, format);
 
   return (
@@ -77,7 +81,7 @@ export default function CVPreview({ cvData, format, className = '' }: CVPreviewP
       {formattedData.summary && (
         <section className="mb-8">
           <h3 className="text-lg font-semibold text-primary mb-3 border-b border-gray-200 pb-1">
-            Professional Summary
+            {labels.summary}
           </h3>
           <p className="text-gray-700 leading-relaxed">
             {formattedData.summary}
@@ -89,7 +93,7 @@ export default function CVPreview({ cvData, format, className = '' }: CVPreviewP
       {formattedData.skills && formattedData.skills.length > 0 && (
         <section className="mb-8">
           <h3 className="text-lg font-semibold text-primary mb-3 border-b border-gray-200 pb-1">
-            Skills
+            {labels.skills}
           </h3>
           <div className="flex flex-wrap gap-2">
             {formattedData.skills.map((skill, index) => (
@@ -108,7 +112,7 @@ export default function CVPreview({ cvData, format, className = '' }: CVPreviewP
       {formattedData.experience && formattedData.experience.length > 0 && (
         <section className="mb-8">
           <h3 className="text-lg font-semibold text-primary mb-3 border-b border-gray-200 pb-1">
-            Work Experience
+            {labels.experience}
           </h3>
           <div className="space-y-6">
             {formattedData.experience.map((exp, index) => (
@@ -130,7 +134,7 @@ export default function CVPreview({ cvData, format, className = '' }: CVPreviewP
       {formattedData.education && formattedData.education.length > 0 && (
         <section className="mb-8">
           <h3 className="text-lg font-semibold text-primary mb-3 border-b border-gray-200 pb-1">
-            Education
+            {labels.education}
           </h3>
           <div className="space-y-4">
             {formattedData.education.map((edu, index) => (
@@ -154,7 +158,7 @@ export default function CVPreview({ cvData, format, className = '' }: CVPreviewP
       {formattedData.languages && formattedData.languages.length > 0 && (
         <section className="mb-8">
           <h3 className="text-lg font-semibold text-primary mb-3 border-b border-gray-200 pb-1">
-            Languages
+            {labels.languages}
           </h3>
           <div className="flex flex-wrap gap-2">
             {formattedData.languages.map((language, index) => (
