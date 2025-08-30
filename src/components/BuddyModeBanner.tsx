@@ -27,8 +27,8 @@ export default function BuddyModeBanner() {
               onClick={() => setBuddyMode(!buddyMode)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 buddyMode
-                  ? 'bg-white text-primary'
-                  : 'bg-primary-light hover:bg-blue-300 text-blue-800'
+                  ? 'bg-white text-primary border border-white'
+                  : 'bg-white text-primary hover:bg-gray-100 border border-white'
               }`}
             >
               {buddyMode ? 'Helper Mode On' : 'Enable Helper Mode'}
