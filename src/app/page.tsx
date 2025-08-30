@@ -53,11 +53,13 @@ export default function HomePage() {
       <BuddyModeBanner />
       
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-100">
+      <nav className="bg-white">
         <div className="container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
+              <Link href="/">
+                <img src="/logoTrans.png" alt="Logo" className="h-10 w-auto cursor-pointer" />
+              </Link>
             </div>
             <div className="flex items-center space-x-8">
               <Link href="/review" className="text-gray-600 hover:text-primary transition-colors font-medium">

@@ -7,7 +7,7 @@ export default function BuddyModeBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gradient-to-r from-green-500 to-green-600 text-white">
+    <div className="bg-gradient-to-r from-primary to-primary-dark text-white">
       <div className="container py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -27,8 +27,8 @@ export default function BuddyModeBanner() {
               onClick={() => setBuddyMode(!buddyMode)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 buddyMode
-                  ? 'bg-white text-green-600'
-                  : 'bg-green-400 hover:bg-green-300 text-green-800'
+                  ? 'bg-white text-primary'
+                  : 'bg-primary-light hover:bg-blue-300 text-blue-800'
               }`}
             >
               {buddyMode ? 'Helper Mode On' : 'Enable Helper Mode'}
@@ -36,7 +36,7 @@ export default function BuddyModeBanner() {
             
             <button
               onClick={() => setIsVisible(false)}
-              className="text-white hover:text-green-200 transition-colors"
+              className="text-white hover:text-blue-200 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
