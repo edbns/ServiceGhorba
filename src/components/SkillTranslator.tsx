@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 
 interface SkillTranslatorProps {
   onTranslated: (skills: string[]) => void;
 }
 
 export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) {
+  const { t } = useSimpleTranslation();
   const [jobInput, setJobInput] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
   const [translatedSkills, setTranslatedSkills] = useState<string[]>([]);
@@ -106,9 +108,9 @@ export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) 
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Skill Translator</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('tools.skill_translator')}</h3>
           <p className="text-sm text-gray-600">
-            Tell us about your job and we&apos;ll turn it into professional skills for your CV
+            {t('tools.skill_subtitle')}
           </p>
         </div>
       </div>
@@ -116,12 +118,12 @@ export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) 
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            What job did you do? (Describe it simply)
+            {t('tools.job_input_placeholder')}
           </label>
           <textarea
             value={jobInput}
             onChange={(e) => setJobInput(e.target.value)}
-            placeholder="e.g., I cleaned hotel rooms, I worked in a restaurant kitchen, I delivered food"
+            placeholder={t('tools.job_input_examples')}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
             rows={3}
           />
@@ -135,16 +137,16 @@ export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) 
           {isTranslating ? (
             <div className="flex items-center justify-center space-x-2">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-              <span>Translating to professional skills...</span>
+              <span>{t('tools.translating')}</span>
             </div>
           ) : (
-            'Turn Into Professional Skills'
+            t('tools.translate_skills')
           )}
         </button>
 
         {translatedSkills.length > 0 && (
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h4 className="font-medium text-green-900 mb-3">Your Professional Skills:</h4>
+            <h4 className="font-medium text-green-900 mb-3">{t('tools.your_skills')}</h4>
             <ul className="space-y-2">
               {translatedSkills.map((skill, index) => (
                 <li key={index} className="flex items-start space-x-2">
