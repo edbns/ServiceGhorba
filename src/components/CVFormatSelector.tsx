@@ -94,7 +94,6 @@ export default function CVFormatSelector({ value, onChange, className = '' }: CV
                   />
                   <div className="flex-1">
                     <div className="font-medium text-gray-900 text-sm">{getFormatLabel(formatKey as CVFormat, t)}</div>
-                    <div className="text-xs text-gray-600 mt-1">{formatDescriptions[formatKey as CVFormat]}</div>
                   </div>
                   <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ml-2 ${
                     value === formatKey
@@ -111,20 +110,7 @@ export default function CVFormatSelector({ value, onChange, className = '' }: CV
           </div>
         ))}
       </div>
-      
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div className="flex items-start space-x-3">
-          <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div>
-            <h4 className="font-medium text-blue-900 mb-2">{t('formats.format_info')}</h4>
-            <p className="text-sm text-blue-800">
-              {formatDescriptions[value]} {t('formats.format_info_desc')}
-            </p>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }

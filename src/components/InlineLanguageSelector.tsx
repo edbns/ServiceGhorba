@@ -27,7 +27,7 @@ export default function InlineLanguageSelector() {
       >
         EN
       </button>
-      <span className="text-gray-400">-</span>
+
       <button
         onClick={() => handleLanguageChange('fr')}
         className={`px-2 py-1 rounded transition-colors ${

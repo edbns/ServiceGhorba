@@ -83,9 +83,7 @@ export default function HomePage() {
             <h1 className="text-4xl font-light text-gray-900 mb-4 tracking-tight">
               {t('home.title')}
             </h1>
-            <p className="text-lg text-gray-600">
-              {t('home.subtitle')}
-            </p>
+
           </div>
 
           {/* Error Display */}
