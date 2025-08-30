@@ -2,8 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import CVReviewer from '@/components/CVReviewer';
 import BuddyModeBanner from '@/components/BuddyModeBanner';
+import InlineLanguageSelector from '@/components/InlineLanguageSelector';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 
 export default function ReviewPage() {
+  const { t } = useSimpleTranslation();
+  
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Buddy Mode Banner */}
@@ -20,11 +24,12 @@ export default function ReviewPage() {
               </div>
               <div className="header-nav flex items-center space-x-8">
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                Blog
+                {t('nav.blog')}
               </Link>
               <Link href="/" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                Back to Home
+                {t('nav.back')}
               </Link>
+              <InlineLanguageSelector />
             </div>
           </div>
         </div>
@@ -34,10 +39,10 @@ export default function ReviewPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-light text-gray-900 mb-4 tracking-tight">
-              AI CV Review
+              {t('review.title')}
             </h1>
             <p className="text-lg text-gray-600">
-              Get instant feedback on your existing CV and learn how to improve it
+              {t('review.subtitle')}
             </p>
           </div>
 
@@ -50,39 +55,39 @@ export default function ReviewPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">What Our AI Reviews</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('review.what_reviews')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Content Quality</h4>
+                    <h4 className="font-medium text-gray-800 mb-2">{t('review.content_quality')}</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
-                      <li>• Professional summary strength</li>
-                      <li>• Achievement vs. duty statements</li>
-                      <li>• Quantifiable results and metrics</li>
-                      <li>• Industry-relevant keywords</li>
+                      <li>{t('review.content_summary')}</li>
+                      <li>{t('review.content_achievements')}</li>
+                      <li>{t('review.content_metrics')}</li>
+                      <li>{t('review.content_keywords')}</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Structure & Format</h4>
+                    <h4 className="font-medium text-gray-800 mb-2">{t('review.structure_format')}</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
-                      <li>• Proper section organization</li>
-                      <li>• Appropriate length and spacing</li>
-                      <li>• ATS-friendly formatting</li>
-                      <li>• Regional compliance</li>
+                      <li>{t('review.structure_organization')}</li>
+                      <li>{t('review.structure_length')}</li>
+                      <li>{t('review.structure_ats')}</li>
+                      <li>{t('review.structure_regional')}</li>
                     </ul>
                   </div>
                 </div>
                 
                 <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium text-blue-900 mb-2">Want to create a new CV instead?</h4>
+                  <h4 className="font-medium text-blue-900 mb-2">{t('review.create_new')}</h4>
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Link href="/chat" className="flex-1">
+                    <Link href="/" className="flex-1">
                       <button className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                        Create New CV
+                        {t('review.create_new_button')}
                       </button>
                     </Link>
-                    <Link href="/upload" className="flex-1">
+                    <Link href="/" className="flex-1">
                       <button className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                        Upload & Improve
+                        {t('review.upload_improve')}
                       </button>
                     </Link>
                   </div>

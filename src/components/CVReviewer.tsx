@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 
 interface CVReviewProps {
   className?: string;
@@ -12,6 +13,7 @@ interface ReviewResult {
 }
 
 export default function CVReviewer({ className = '' }: CVReviewProps) {
+  const { t } = useSimpleTranslation();
   const [cvText, setCvText] = useState('');
   const [isReviewing, setIsReviewing] = useState(false);
   const [reviewResult, setReviewResult] = useState<ReviewResult | null>(null);
@@ -67,9 +69,9 @@ export default function CVReviewer({ className = '' }: CVReviewProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">AI CV Review</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('review.title')}</h3>
           <p className="text-sm text-gray-600">
-            Paste your existing CV and get AI-powered feedback to improve it
+            {t('review.description')}
           </p>
         </div>
       </div>
@@ -77,12 +79,12 @@ export default function CVReviewer({ className = '' }: CVReviewProps) {
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Paste your CV text here
+            {t('review.paste_placeholder')}
           </label>
           <textarea
             value={cvText}
             onChange={(e) => setCvText(e.target.value)}
-            placeholder="Copy and paste your CV content here..."
+            placeholder={t('review.paste_description')}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
             rows={8}
           />
@@ -99,7 +101,7 @@ export default function CVReviewer({ className = '' }: CVReviewProps) {
               <span>AI is reviewing your CV...</span>
             </div>
           ) : (
-            'Review My CV'
+            t('review.button')
           )}
         </button>
 

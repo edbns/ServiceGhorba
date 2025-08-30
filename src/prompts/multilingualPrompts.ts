@@ -5,7 +5,7 @@ export interface ChatPrompt {
   placeholder?: string;
 }
 
-export const multilingualCVPrompts = {
+export const multilingualCVPrompts: Record<'en' | 'fr', ChatPrompt[]> = {
   en: [
     { key: 'name', question: 'What is your full name?', type: 'text' as const, placeholder: 'e.g., John Smith' },
     { key: 'title', question: 'What job title or role are you aiming for?', type: 'text' as const, placeholder: 'e.g., Software Engineer' },

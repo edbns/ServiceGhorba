@@ -101,7 +101,29 @@ const translations = {
     // Buddy Mode
     'buddy.title': 'Helping someone create their CV?',
     'buddy.enable': 'Enable Helper Mode',
-    'buddy.enabled': 'Helper Mode Enabled'
+    'buddy.enabled': 'Helper Mode Enabled',
+    
+    // CV Review
+    'review.title': 'AI CV Review',
+    'review.subtitle': 'Get instant feedback on your existing CV and learn how to improve it',
+    'review.description': 'Paste your existing CV and get AI-powered feedback to improve it',
+    'review.paste_placeholder': 'Paste your CV text here',
+    'review.paste_description': 'Copy and paste your CV content here...',
+    'review.button': 'Review My CV',
+    'review.what_reviews': 'What Our AI Reviews',
+    'review.content_quality': 'Content Quality',
+    'review.content_summary': '• Professional summary strength',
+    'review.content_achievements': '• Achievement vs. duty statements',
+    'review.content_metrics': '• Quantifiable results and metrics',
+    'review.content_keywords': '• Industry-relevant keywords',
+    'review.structure_format': 'Structure & Format',
+    'review.structure_organization': '• Proper section organization',
+    'review.structure_length': '• Appropriate length and spacing',
+    'review.structure_ats': '• ATS-friendly formatting',
+    'review.structure_regional': '• Regional compliance',
+    'review.create_new': 'Want to create a new CV instead?',
+    'review.create_new_button': 'Create New CV',
+    'review.upload_improve': 'Upload & Improve'
   },
   
   fr: {
@@ -202,7 +224,29 @@ const translations = {
     // Buddy Mode
     'buddy.title': 'Vous aidez quelqu\'un à créer son CV?',
     'buddy.enable': 'Activer le mode assistant',
-    'buddy.enabled': 'Mode assistant activé'
+    'buddy.enabled': 'Mode assistant activé',
+    
+    // CV Review
+    'review.title': 'Relecture de CV par l\'IA',
+    'review.subtitle': 'Obtenez un retour immédiat sur votre CV actuel et découvrez comment l\'améliorer',
+    'review.description': 'Collez votre CV existant et recevez une analyse assistée par l\'IA pour l\'améliorer',
+    'review.paste_placeholder': 'Collez le texte de votre CV ici',
+    'review.paste_description': 'Copiez et collez ici le contenu de votre CV...',
+    'review.button': 'Analyser mon CV',
+    'review.what_reviews': 'Ce que notre IA analyse',
+    'review.content_quality': 'Qualité du contenu',
+    'review.content_summary': '• Pertinence du résumé professionnel',
+    'review.content_achievements': '• Réalisations vs. simples descriptions de tâches',
+    'review.content_metrics': '• Résultats chiffrés et mesurables',
+    'review.content_keywords': '• Mots-clés adaptés au secteur',
+    'review.structure_format': 'Structure et mise en forme',
+    'review.structure_organization': '• Organisation correcte des sections',
+    'review.structure_length': '• Longueur et espacement appropriés',
+    'review.structure_ats': '• Format compatible avec les ATS',
+    'review.structure_regional': '• Conformité avec les normes régionales',
+    'review.create_new': 'Vous préférez créer un nouveau CV ?',
+    'review.create_new_button': 'Créer un nouveau CV',
+    'review.upload_improve': 'Télécharger & Améliorer'
   }
 };
 
