@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
+import '@/i18n'
 
 export const metadata: Metadata = {
   title: 'AI CV Generator',
