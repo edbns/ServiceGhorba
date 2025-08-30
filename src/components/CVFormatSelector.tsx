@@ -21,28 +21,9 @@ export type CVFormat =
   | 'kitchen_helper'
   | 'cleaner_cv';
 
-const formatLabels: Record<CVFormat, string> = {
-  // Regional Formats
-  canada_resume: 'Canada Resume',
-  canada_academic: 'Canada Academic CV',
-  us_resume: 'US Resume',
-  uk_cv: 'UK CV',
-  germany_cv: 'German CV',
-  japan_rirekisho: 'Japanese Rirekisho',
-  australia_resume: 'Australia Resume',
-  europass: 'Europass (EU)',
-  europe_custom: 'Europe Custom',
-  // Specialized Formats
-  academic_cv: 'Academic CV',
-  creative_portfolio: 'Creative Portfolio',
-  tech_resume: 'Tech Resume',
-  // Service Worker Formats
-  basic_worker: 'Basic Worker CV',
-  delivery_driver: 'Delivery Driver',
-  waiter_service: 'Restaurant/Service',
-  construction_cv: 'Construction/Labor',
-  kitchen_helper: 'Kitchen Staff',
-  cleaner_cv: 'Cleaning/Maintenance'
+// We'll get the labels from translations now
+const getFormatLabel = (format: CVFormat, t: (key: string) => string): string => {
+  return t(`format.${format}`);
 };
 
 const formatDescriptions: Record<CVFormat, string> = {
@@ -112,7 +93,7 @@ export default function CVFormatSelector({ value, onChange, className = '' }: CV
                     className="sr-only"
                   />
                   <div className="flex-1">
-                    <div className="font-medium text-gray-900 text-sm">{formatLabels[formatKey as CVFormat]}</div>
+                    <div className="font-medium text-gray-900 text-sm">{getFormatLabel(formatKey as CVFormat, t)}</div>
                     <div className="text-xs text-gray-600 mt-1">{formatDescriptions[formatKey as CVFormat]}</div>
                   </div>
                   <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ml-2 ${
