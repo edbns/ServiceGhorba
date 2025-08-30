@@ -1,0 +1,21 @@
+📄 AI CV & Motivation Letter Generator (Netlify, No Database)
+
+A lightweight, production-ready web app that lets users create CVs, resumes, cover letters, and motivation letters via AI, with support for file upload, chat-based generation, format export, regional compliance, and markdown-based blogging — all hosted on Netlify with no database.
+
+✨ Features
+
+✅ Upload existing CV (PDF/DOCX) and convert
+
+✅ Chat-based CV & letter generation
+
+✅ Export to PDF, DOCX, Markdown, or TXT
+
+✅ Choose regional formats: Canada, Europass, EU Custom, Academic
+
+✅ Minimal design — white background + #043fff theme
+
+✅ Public blog with markdown posts
+
+✅ Admin panel with OTP-based login (JWT)
+
+✅ Hosted 100% on Netlify (functions + frontend)
