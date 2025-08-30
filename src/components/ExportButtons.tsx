@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { CVData, ExportTheme } from '@/utils/formatHelpers';
+import { CVData, ExportTheme, ExportLanguage } from '@/utils/formatHelpers';
 import { exportAsText, exportAsMarkdown, exportAsDocx, exportAsPDF } from '@/utils/exportHelpers';
 
 interface ExportButtonsProps {
   cvData: CVData;
   theme?: ExportTheme;
+  language?: ExportLanguage;
   previewElementId?: string;
   className?: string;
 }
 
-export default function ExportButtons({ cvData, theme = 'clean', previewElementId = 'cv-preview', className = '' }: ExportButtonsProps) {
+export default function ExportButtons({ cvData, theme = 'clean', language = 'english', previewElementId = 'cv-preview', className = '' }: ExportButtonsProps) {
   const [isExporting, setIsExporting] = useState<string | null>(null);
 
   const handleExport = async (type: 'pdf' | 'docx' | 'txt' | 'md') => {

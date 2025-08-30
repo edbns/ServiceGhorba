@@ -205,6 +205,7 @@ export default function ResultPage() {
                   <ExportButtons 
                     cvData={formattedData}
                     theme={selectedTheme}
+                    language={selectedLanguage}
                     previewElementId="cv-preview"
                   />
                 </div>

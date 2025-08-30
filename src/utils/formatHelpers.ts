@@ -33,6 +33,7 @@ export type ExportLanguage =
   | 'english'
   | 'spanish'
   | 'french'
+  | 'arabic'
   | 'tagalog'
   | 'bengali'
   | 'indonesian';

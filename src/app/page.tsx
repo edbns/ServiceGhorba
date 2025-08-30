@@ -10,6 +10,8 @@ import QuickJobSelector, { JobTemplate } from '@/components/QuickJobSelector';
 import SkillTranslator from '@/components/SkillTranslator';
 import CountryBasedSelector from '@/components/CountryBasedSelector';
 import UploadForm from '@/components/UploadForm';
+import LanguageSelector from '@/components/LanguageSelector';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CVData } from '@/utils/formatHelpers';
 
 export default function HomePage() {
@@ -48,11 +50,12 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Buddy Mode Banner */}
-      <BuddyModeBanner />
-      
-      {/* Navigation */}
+    <LanguageProvider>
+      <div className="min-h-screen bg-gray-50">
+        {/* Buddy Mode Banner */}
+        <BuddyModeBanner />
+        
+        {/* Navigation */}
       <nav className="bg-white">
         <div className="container">
           <div className="flex justify-between items-center h-20">
@@ -68,6 +71,7 @@ export default function HomePage() {
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 Blog
               </Link>
+              <LanguageSelector />
             </div>
           </div>
         </div>
@@ -214,6 +218,7 @@ export default function HomePage() {
           />
         </div>
       </div>
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }

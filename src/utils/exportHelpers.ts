@@ -2,7 +2,81 @@ import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Document, Packer, Paragraph, HeadingLevel, TextRun } from 'docx';
-import { CVData, ExportTheme } from './formatHelpers';
+import { CVData, ExportTheme, ExportLanguage } from './formatHelpers';
+
+// Translation dictionaries for CV sections
+const sectionTranslations = {
+  english: {
+    contact: 'Contact Information',
+    summary: 'Professional Summary',
+    skills: 'Skills',
+    experience: 'Work Experience',
+    education: 'Education',
+    languages: 'Languages',
+    additional: 'Additional Information',
+    references: 'References'
+  },
+  french: {
+    contact: 'Coordonnées',
+    summary: 'Résumé Professionnel',
+    skills: 'Compétences',
+    experience: 'Expérience Professionnelle',
+    education: 'Formation',
+    languages: 'Langues',
+    additional: 'Informations Supplémentaires',
+    references: 'Références'
+  },
+  arabic: {
+    contact: 'معلومات الاتصال',
+    summary: 'الملخص المهني',
+    skills: 'المهارات',
+    experience: 'الخبرة المهنية',
+    education: 'التعليم',
+    languages: 'اللغات',
+    additional: 'معلومات إضافية',
+    references: 'المراجع'
+  },
+  spanish: {
+    contact: 'Información de Contacto',
+    summary: 'Resumen Profesional',
+    skills: 'Habilidades',
+    experience: 'Experiencia Laboral',
+    education: 'Educación',
+    languages: 'Idiomas',
+    additional: 'Información Adicional',
+    references: 'Referencias'
+  },
+  tagalog: {
+    contact: 'Impormasyon ng Pakikipag-ugnayan',
+    summary: 'Propesyonal na Buod',
+    skills: 'Kasanayan',
+    experience: 'Karanasan sa Trabaho',
+    education: 'Edukasyon',
+    languages: 'Mga Wika',
+    additional: 'Karagdagang Impormasyon',
+    references: 'Mga Sanggunian'
+  },
+  bengali: {
+    contact: 'যোগাযোগের তথ্য',
+    summary: 'পেশাদার সারসংক্ষেপ',
+    skills: 'দক্ষতা',
+    experience: 'কাজের অভিজ্ঞতা',
+    education: 'শিক্ষা',
+    languages: 'ভাষা',
+    additional: 'অতিরিক্ত তথ্য',
+    references: 'রেফারেন্স'
+  },
+  indonesian: {
+    contact: 'Informasi Kontak',
+    summary: 'Ringkasan Profesional',
+    skills: 'Keahlian',
+    experience: 'Pengalaman Kerja',
+    education: 'Pendidikan',
+    languages: 'Bahasa',
+    additional: 'Informasi Tambahan',
+    references: 'Referensi'
+  }
+};
 
 export function exportAsText(content: string, filename = 'document.txt') {
   const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -177,16 +251,20 @@ export function downloadFile(content: string, filename: string, mimeType: string
   saveAs(blob, filename);
 }
 
-export function buildExportHTML(data: CVData, theme: ExportTheme): string {
+export function buildExportHTML(data: CVData, theme: ExportTheme, language: ExportLanguage = 'english'): string {
+  const isRTL = language === 'arabic';
+  const translations = sectionTranslations[language] || sectionTranslations.english;
   const baseStyles = `
     <style>
       body { 
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        font-family: ${isRTL ? "'Tahoma', 'Arial', sans-serif" : "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"}; 
         line-height: 1.6; 
         color: #333; 
         max-width: 800px; 
         margin: 0 auto; 
         padding: 20px;
+        direction: ${isRTL ? 'rtl' : 'ltr'};
+        text-align: ${isRTL ? 'right' : 'left'};
       }
       .header { margin-bottom: 30px; }
       .section { margin-bottom: 25px; }
@@ -771,7 +849,7 @@ export function buildExportHTML(data: CVData, theme: ExportTheme): string {
   }
 }
 
-function buildContactSection(data: CVData, boxed = false): string {
+function buildContactSection(data: CVData, boxed = false, translations = sectionTranslations.english): string {
   if (!data.contact) return '';
   
   const contacts = [];
@@ -786,7 +864,7 @@ function buildContactSection(data: CVData, boxed = false): string {
   
   return `
     <div class="section">
-      ${boxed ? '<div class="section-title">Contact Information</div>' : ''}
+      ${boxed ? `<div class="section-title">${translations.contact}</div>` : ''}
       <div class="contact-info">
         ${contacts.map(contact => `<div class="contact-item">${contact}</div>`).join('')}
       </div>

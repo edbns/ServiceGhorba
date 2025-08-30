@@ -1,11 +1,12 @@
 import React from 'react';
 
-export type ExportLanguage = 'english' | 'spanish' | 'french' | 'tagalog' | 'bengali' | 'indonesian';
+export type ExportLanguage = 'english' | 'spanish' | 'french' | 'arabic' | 'tagalog' | 'bengali' | 'indonesian';
 
 const languageLabels: Record<ExportLanguage, string> = {
   english: 'English',
   spanish: 'Español (Spanish)',
   french: 'Français (French)',
+  arabic: 'العربية (Arabic)',
   tagalog: 'Tagalog (Filipino)',
   bengali: 'বাংলা (Bengali)',
   indonesian: 'Bahasa Indonesia'
@@ -15,6 +16,7 @@ const languageFlags: Record<ExportLanguage, string> = {
   english: '🇺🇸',
   spanish: '🇪🇸',
   french: '🇫🇷',
+  arabic: '🇸🇦',
   tagalog: '🇵🇭',
   bengali: '🇧🇩',
   indonesian: '🇮🇩'
