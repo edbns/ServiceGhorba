@@ -14,7 +14,7 @@ export default function ResultPage() {
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
   const [selectedTheme, setSelectedTheme] = useState<ExportTheme>('clean');
   const [selectedLanguage, setSelectedLanguage] = useState<ExportLanguage>('english');
-  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter' | 'basic_motivation'>('cv');
+  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
   const [isEditing, setIsEditing] = useState(false);
   const [editableData, setEditableData] = useState<CVData | null>(null);
 
@@ -48,7 +48,7 @@ export default function ResultPage() {
     }
     
     if (savedDocType) {
-      setDocumentType(savedDocType as 'cv' | 'motivation_letter' | 'basic_motivation');
+      setDocumentType(savedDocType as 'cv' | 'motivation_letter');
     }
   }, [router]);
 

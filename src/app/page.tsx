@@ -15,7 +15,8 @@ import { CVData } from '@/utils/formatHelpers';
 export default function HomePage() {
   const router = useRouter();
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
-  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter' | 'basic_motivation'>('cv');
+  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
+  const [simpleStyle, setSimpleStyle] = useState(false);
   const [initialData, setInitialData] = useState<Partial<CVData>>({});
   const [showUpload, setShowUpload] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,9 +29,10 @@ export default function HomePage() {
     router.push('/result');
   };
 
-  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter' | 'basic_motivation') => {
+  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter') => {
     setDocumentType(newType);
     setInitialData({});
+    setSimpleStyle(false); // Reset simple style when switching types
   };
 
   const handleFileProcessed = (data: Partial<CVData>) => {
@@ -100,7 +102,7 @@ export default function HomePage() {
             <div className="bg-white rounded-lg border border-gray-200 p-2 inline-flex">
               <button
                 onClick={() => handleDocumentTypeChange('cv')}
-                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
+                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                   documentType === 'cv'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
@@ -110,7 +112,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => handleDocumentTypeChange('motivation_letter')}
-                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
+                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                   documentType === 'motivation_letter'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
@@ -118,18 +120,27 @@ export default function HomePage() {
               >
                 Cover Letter
               </button>
-              <button
-                onClick={() => handleDocumentTypeChange('basic_motivation')}
-                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
-                  documentType === 'basic_motivation'
-                    ? 'bg-primary text-white'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Simple Letter
-              </button>
             </div>
           </div>
+
+          {/* Simple Style Toggle for Cover Letters */}
+          {documentType === 'motivation_letter' && (
+            <div className="flex justify-center mb-8">
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={simpleStyle}
+                    onChange={(e) => setSimpleStyle(e.target.checked)}
+                    className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Keep it simple (for everyday jobs and easy reading)
+                  </span>
+                </label>
+              </div>
+            </div>
+          )}
 
           {/* Upload Section */}
           {documentType === 'cv' && (
@@ -198,6 +209,7 @@ export default function HomePage() {
           <ChatBot
             type={documentType}
             format={selectedFormat}
+            simpleStyle={simpleStyle}
             onComplete={handleChatComplete}
             initialData={initialData}
           />

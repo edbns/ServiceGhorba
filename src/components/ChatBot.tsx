@@ -27,8 +27,9 @@ interface SpeechRecognitionErrorEvent extends Event {
 }
 
 interface ChatBotProps {
-  type: 'cv' | 'motivation_letter' | 'basic_motivation';
+  type: 'cv' | 'motivation_letter';
   format?: CVFormat;
+  simpleStyle?: boolean;
   onComplete: (data: CVData) => void;
   initialData?: Partial<CVData>;
 }
@@ -39,17 +40,16 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-export default function ChatBot({ type, format, onComplete, initialData = {} }: ChatBotProps) {
-  // Choose prompts based on type and format
+export default function ChatBot({ type, format, simpleStyle = false, onComplete, initialData = {} }: ChatBotProps) {
+  // Choose prompts based on type, format, and style
   let prompts;
   if (type === 'cv') {
     // Use basic prompts for service worker formats
     const serviceWorkerFormats = ['basic_worker', 'delivery_driver', 'waiter_service', 'construction_cv', 'kitchen_helper', 'cleaner_cv'];
     prompts = format && serviceWorkerFormats.includes(format) ? basicWorkerPrompts : guidedCVPrompts;
-  } else if (type === 'basic_motivation') {
-    prompts = guidedMotivationPrompts;
   } else {
-    prompts = motivationLetterPrompts;
+    // For motivation letters, use simple prompts if simple style is selected
+    prompts = simpleStyle ? guidedMotivationPrompts : motivationLetterPrompts;
   }
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState<Record<string, string>>({});
@@ -89,9 +89,10 @@ export default function ChatBot({ type, format, onComplete, initialData = {} }: 
     setResponses(initialResponses);
     
     // Initialize first message
+    const documentName = type === 'cv' ? 'CV' : (simpleStyle ? 'simple cover letter' : 'cover letter');
     setChatMessages([{
       role: 'assistant',
-      content: `Hello! I'm here to help you create a professional ${type === 'cv' ? 'CV' : 'motivation letter'}. Let's start with some basic information. ${prompts[0].question}`,
+      content: `Hello! I'm here to help you create a professional ${documentName}. Let's start with some basic information. ${prompts[0].question}`,
       timestamp: new Date()
     }]);
 
@@ -99,7 +100,7 @@ export default function ChatBot({ type, format, onComplete, initialData = {} }: 
     if (typeof window !== 'undefined') {
       setSpeechSupported('webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
     }
-  }, [initialData, type, prompts]);
+  }, [initialData, type, prompts, simpleStyle]);
 
   const currentPrompt = prompts[currentStep];
   const isLastStep = currentStep === prompts.length - 1;
@@ -216,7 +217,7 @@ export default function ChatBot({ type, format, onComplete, initialData = {} }: 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          type,
+          type: type === 'motivation_letter' && simpleStyle ? 'basic_motivation' : type,
           data: responses,
           format: 'general'
         }),

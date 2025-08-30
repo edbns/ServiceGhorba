@@ -13,7 +13,7 @@ export default function ChatPage() {
   const router = useRouter();
   const { mode, type } = router.query;
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
-  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter' | 'basic_motivation'>('cv');
+  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
   const [initialData, setInitialData] = useState<Partial<CVData>>({});
 
 
@@ -33,8 +33,6 @@ export default function ChatPage() {
     // Set document type from query params
     if (type === 'motivation_letter') {
       setDocumentType('motivation_letter');
-    } else if (type === 'basic_motivation') {
-      setDocumentType('basic_motivation');
     }
   }, [type]);
 
@@ -46,7 +44,7 @@ export default function ChatPage() {
     router.push('/result');
   };
 
-  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter' | 'basic_motivation') => {
+  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter') => {
     setDocumentType(newType);
     // Clear any existing data when switching types
     setInitialData({});
@@ -114,16 +112,7 @@ export default function ChatPage() {
               >
                 Cover Letter
               </button>
-              <button
-                onClick={() => handleDocumentTypeChange('basic_motivation')}
-                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
-                  documentType === 'basic_motivation'
-                    ? 'bg-primary text-white'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Simple Letter
-              </button>
+
             </div>
           </div>
 
