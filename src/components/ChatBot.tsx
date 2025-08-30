@@ -8,14 +8,21 @@ interface ChatBotProps {
   initialData?: Partial<CVData>;
 }
 
+interface ChatMessage {
+  role: 'assistant' | 'user';
+  content: string;
+  timestamp: Date;
+}
+
 export default function ChatBot({ type, onComplete, initialData = {} }: ChatBotProps) {
   const prompts = type === 'cv' ? guidedCVPrompts : motivationLetterPrompts;
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [currentInput, setCurrentInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
-  // Initialize responses with any existing data
+  // Initialize responses and chat
   useEffect(() => {
     const initialResponses: Record<string, string> = {};
     
@@ -43,40 +50,86 @@ export default function ChatBot({ type, onComplete, initialData = {} }: ChatBotP
     }
     
     setResponses(initialResponses);
-  }, [initialData, type]);
+    
+    // Initialize first message
+    setChatMessages([{
+      role: 'assistant',
+      content: `Hello! I'm here to help you create a professional ${type === 'cv' ? 'CV' : 'motivation letter'}. Let's start with some basic information. ${prompts[0].question}`,
+      timestamp: new Date()
+    }]);
+  }, [initialData, type, prompts]);
 
   const currentPrompt = prompts[currentStep];
   const isLastStep = currentStep === prompts.length - 1;
 
-  const handleNext = () => {
-    if (currentInput.trim()) {
-      setResponses(prev => ({
-        ...prev,
-        [currentPrompt.key]: currentInput.trim()
-      }));
-      setCurrentInput('');
-      
+  const handleSendMessage = () => {
+    if (!currentInput.trim()) return;
+
+    // Add user message
+    const userMessage: ChatMessage = {
+      role: 'user',
+      content: currentInput.trim(),
+      timestamp: new Date()
+    };
+
+    setChatMessages(prev => [...prev, userMessage]);
+
+    // Store response
+    setResponses(prev => ({
+      ...prev,
+      [currentPrompt.key]: currentInput.trim()
+    }));
+
+    setCurrentInput('');
+
+    // Add assistant response
+    setTimeout(() => {
       if (isLastStep) {
-        handleGenerate();
+        setChatMessages(prev => [...prev, {
+          role: 'assistant',
+          content: 'Perfect! I have all the information I need. Let me generate your professional document now.',
+          timestamp: new Date()
+        }]);
+        setTimeout(() => handleGenerate(), 1000);
       } else {
+        const nextPrompt = prompts[currentStep + 1];
+        setChatMessages(prev => [...prev, {
+          role: 'assistant',
+          content: `Great! ${nextPrompt.question}`,
+          timestamp: new Date()
+        }]);
         setCurrentStep(prev => prev + 1);
       }
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-      setCurrentInput(responses[prompts[currentStep - 1].key] || '');
-    }
+    }, 500);
   };
 
   const handleSkip = () => {
-    if (isLastStep) {
-      handleGenerate();
-    } else {
-      setCurrentStep(prev => prev + 1);
-    }
+    const skipMessage: ChatMessage = {
+      role: 'user',
+      content: '[Skipped]',
+      timestamp: new Date()
+    };
+
+    setChatMessages(prev => [...prev, skipMessage]);
+
+    setTimeout(() => {
+      if (isLastStep) {
+        setChatMessages(prev => [...prev, {
+          role: 'assistant',
+          content: 'No problem! Let me generate your document with the information provided.',
+          timestamp: new Date()
+        }]);
+        setTimeout(() => handleGenerate(), 1000);
+      } else {
+        const nextPrompt = prompts[currentStep + 1];
+        setChatMessages(prev => [...prev, {
+          role: 'assistant',
+          content: `No worries! ${nextPrompt.question}`,
+          timestamp: new Date()
+        }]);
+        setCurrentStep(prev => prev + 1);
+      }
+    }, 500);
   };
 
   const handleGenerate = async () => {
@@ -103,7 +156,11 @@ export default function ChatBot({ type, onComplete, initialData = {} }: ChatBotP
       onComplete(result.data);
     } catch (error) {
       console.error('Generation error:', error);
-      alert('Failed to generate content. Please try again.');
+      setChatMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'I apologize, but there was an error generating your document. Please try again.',
+        timestamp: new Date()
+      }]);
     } finally {
       setIsGenerating(false);
     }
@@ -111,114 +168,125 @@ export default function ChatBot({ type, onComplete, initialData = {} }: ChatBotP
 
   if (isGenerating) {
     return (
-      <div className="card max-w-2xl mx-auto text-center">
-        <div className="space-y-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto"></div>
-          <h3 className="text-xl font-semibold text-gray-900">
-            Generating your {type === 'cv' ? 'CV' : 'motivation letter'}...
-          </h3>
-          <p className="text-gray-600">
-            Our AI is crafting your professional document. This may take a moment.
-          </p>
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <div className="space-y-4">
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900">
+              Generating your {type === 'cv' ? 'CV' : 'motivation letter'}
+            </h3>
+            <p className="text-gray-600">
+              Our AI is crafting your professional document...
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="card max-w-2xl mx-auto">
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {type === 'cv' ? 'CV Builder' : 'Motivation Letter Builder'}
-          </h2>
-          <span className="text-sm text-gray-500">
-            Step {currentStep + 1} of {prompts.length}
-          </span>
-        </div>
-        
-        {/* Progress bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-primary h-2 rounded-full transition-all duration-300"
-            style={{ width: `${((currentStep + 1) / prompts.length) * 100}%` }}
-          ></div>
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        <div>
-          <label className="block text-lg font-medium text-gray-900 mb-3">
-            {currentPrompt.question}
-          </label>
-          
-          {currentPrompt.type === 'textarea' ? (
-            <textarea
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              placeholder={currentPrompt.placeholder}
-              className="input-field h-32 resize-none"
-              autoFocus
-            />
-          ) : (
-            <input
-              type="text"
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              placeholder={currentPrompt.placeholder}
-              className="input-field"
-              autoFocus
-              onKeyPress={(e) => e.key === 'Enter' && handleNext()}
-            />
-          )}
-        </div>
-
-        <div className="flex justify-between">
-          <div className="space-x-3">
-            {currentStep > 0 && (
-              <button
-                onClick={handlePrevious}
-                className="btn-secondary"
-              >
-                Previous
-              </button>
-            )}
-            
-            <button
-              onClick={handleSkip}
-              className="btn-secondary"
+    <div className="max-w-4xl mx-auto">
+      {/* Chat Container */}
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+        {/* Chat Messages */}
+        <div className="h-96 overflow-y-auto p-6 space-y-4">
+          {chatMessages.map((message, index) => (
+            <div
+              key={index}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              Skip
-            </button>
-          </div>
+              <div className={`flex items-start space-x-3 max-w-xs lg:max-w-md ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                {/* Avatar */}
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  message.role === 'user' 
+                    ? 'bg-primary text-white' 
+                    : 'bg-gray-100 text-gray-600'
+                }`}>
+                  {message.role === 'user' ? (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                  )}
+                </div>
+                
+                {/* Message */}
+                <div className={`rounded-lg px-4 py-2 ${
+                  message.role === 'user'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 text-gray-900'
+                }`}>
+                  <p className="text-sm leading-relaxed">{message.content}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
-          <button
-            onClick={handleNext}
-            disabled={!currentInput.trim() && !isLastStep}
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLastStep ? 'Generate' : 'Next'}
-          </button>
+        {/* Input Area */}
+        <div className="border-t border-gray-200 p-4">
+          <div className="flex items-end space-x-3">
+            <div className="flex-1">
+              {currentPrompt?.type === 'textarea' ? (
+                <textarea
+                  value={currentInput}
+                  onChange={(e) => setCurrentInput(e.target.value)}
+                  placeholder={currentPrompt.placeholder}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                  rows={3}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={currentInput}
+                  onChange={(e) => setCurrentInput(e.target.value)}
+                  placeholder={currentPrompt?.placeholder || 'Type your response...'}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                />
+              )}
+            </div>
+            
+            <div className="flex space-x-2">
+              <button
+                onClick={handleSkip}
+                className="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors"
+                title="Skip this question"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              
+              <button
+                onClick={handleSendMessage}
+                disabled={!currentInput.trim()}
+                className="bg-primary hover:bg-primary-dark text-white p-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div className="flex justify-between items-center mt-2 text-xs text-gray-500">
+            <span>Step {currentStep + 1} of {prompts.length}</span>
+            <span>Press Enter to send, Shift+Enter for new line</span>
+          </div>
         </div>
       </div>
-
-      {/* Show previous responses */}
-      {Object.keys(responses).length > 0 && (
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Your Information</h3>
-          <div className="space-y-3">
-            {Object.entries(responses).map(([key, value]) => {
-              const prompt = prompts.find(p => p.key === key);
-              return (
-                <div key={key} className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-sm font-medium text-gray-700">{prompt?.question}</p>
-                  <p className="text-sm text-gray-900 mt-1">{value}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

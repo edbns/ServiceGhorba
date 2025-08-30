@@ -155,19 +155,18 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         {/* Navigation */}
-        <nav className="bg-white shadow-sm border-b border-gray-200">
+        <nav className="bg-white border-b border-gray-100">
           <div className="container">
-            <div className="flex justify-between items-center h-16">
-              <Link href="/" className="flex items-center space-x-2">
-                <span className="text-2xl">🤖</span>
-                <span className="text-xl font-bold text-primary">AI CV Generator</span>
-              </Link>
-              <div className="flex items-center space-x-6">
-                <Link href="/blog" className="text-gray-700 hover:text-primary transition-colors">
-                  📝 Blog
+            <div className="flex justify-between items-center h-20">
+              <div className="flex items-center">
+                <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
+              </div>
+              <div className="flex items-center space-x-8">
+                <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
+                  Blog
                 </Link>
-                <Link href="/" className="btn-secondary">
-                  ← Back to Home
+                <Link href="/" className="text-gray-600 hover:text-primary transition-colors font-medium">
+                  Back to Home
                 </Link>
               </div>
             </div>
@@ -179,7 +178,9 @@ export default function AdminPage() {
             <div className="card">
               <div className="text-center mb-8">
                 <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white text-2xl">🔐</span>
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
                 <p className="text-gray-600 mt-2">
@@ -268,16 +269,15 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         {/* Navigation */}
-        <nav className="bg-white shadow-sm border-b border-gray-200">
+        <nav className="bg-white border-b border-gray-100">
           <div className="container">
-            <div className="flex justify-between items-center h-16">
-              <Link href="/" className="flex items-center space-x-2">
-                <span className="text-2xl">🤖</span>
-                <span className="text-xl font-bold text-primary">AI CV Generator</span>
-              </Link>
-              <div className="flex items-center space-x-6">
-                <span className="text-gray-700">Admin Panel</span>
-                <button onClick={handleLogout} className="btn-secondary">
+            <div className="flex justify-between items-center h-20">
+              <div className="flex items-center">
+                <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
+              </div>
+              <div className="flex items-center space-x-8">
+                <span className="text-gray-600 font-medium">Admin Panel</span>
+                <button onClick={handleLogout} className="text-gray-600 hover:text-primary transition-colors font-medium">
                   Logout
                 </button>
               </div>
@@ -302,18 +302,17 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-200">
+      <nav className="bg-white border-b border-gray-100">
         <div className="container">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl">🤖</span>
-              <span className="text-xl font-bold text-primary">AI CV Generator</span>
-            </Link>
-            <div className="flex items-center space-x-6">
-              <Link href="/blog" className="text-gray-700 hover:text-primary transition-colors">
-                📝 Blog
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center">
+              <img src="/logo.png" alt="AI CV Generator" className="h-8 w-auto" />
+            </div>
+            <div className="flex items-center space-x-8">
+              <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
+                Blog
               </Link>
-              <button onClick={handleLogout} className="btn-secondary">
+              <button onClick={handleLogout} className="text-gray-600 hover:text-primary transition-colors font-medium">
                 Logout
               </button>
             </div>
@@ -330,9 +329,12 @@ export default function AdminPage() {
             </div>
             <button
               onClick={() => setIsCreating(true)}
-              className="btn-primary"
+              className="bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center space-x-2"
             >
-              ➕ New Post
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              <span>New Post</span>
             </button>
           </div>
 
@@ -342,7 +344,11 @@ export default function AdminPage() {
             
             {posts.length === 0 ? (
               <div className="text-center py-8">
-                <div className="text-4xl mb-4">📝</div>
+                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
                 <p className="text-gray-600">No blog posts yet. Create your first post!</p>
               </div>
             ) : (

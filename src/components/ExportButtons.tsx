@@ -52,10 +52,46 @@ export default function ExportButtons({ cvData, previewElementId = 'cv-preview',
   };
 
   const exportOptions = [
-    { type: 'pdf' as const, label: 'PDF', icon: '📄', description: 'Best for printing and sharing' },
-    { type: 'docx' as const, label: 'Word', icon: '📝', description: 'Editable document format' },
-    { type: 'txt' as const, label: 'Text', icon: '📋', description: 'Plain text format' },
-    { type: 'md' as const, label: 'Markdown', icon: '📖', description: 'Markdown format for developers' },
+    { 
+      type: 'pdf' as const, 
+      label: 'PDF', 
+      description: 'Best for printing and sharing',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      )
+    },
+    { 
+      type: 'docx' as const, 
+      label: 'Word', 
+      description: 'Editable document format',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+      )
+    },
+    { 
+      type: 'txt' as const, 
+      label: 'Text', 
+      description: 'Plain text format',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      )
+    },
+    { 
+      type: 'md' as const, 
+      label: 'Markdown', 
+      description: 'Markdown format for developers',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+      )
+    },
   ];
 
   return (
@@ -77,7 +113,7 @@ export default function ExportButtons({ cvData, previewElementId = 'cv-preview',
             )}
             
             <div className="flex items-center space-x-3">
-              <span className="text-2xl">{icon}</span>
+              <div className="text-primary">{icon}</div>
               <div>
                 <h4 className="font-medium text-gray-900">{label}</h4>
                 <p className="text-sm text-gray-600">{description}</p>
@@ -87,12 +123,14 @@ export default function ExportButtons({ cvData, previewElementId = 'cv-preview',
         ))}
       </div>
       
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-        <div className="flex items-start space-x-2">
-          <span className="text-yellow-600">💡</span>
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="flex items-start space-x-3">
+          <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
           <div>
-            <h4 className="font-medium text-yellow-800">Export Tips</h4>
-            <ul className="text-sm text-yellow-700 mt-1 space-y-1">
+            <h4 className="font-medium text-blue-900">Export Tips</h4>
+            <ul className="text-sm text-blue-800 mt-1 space-y-1">
               <li>• PDF is recommended for job applications</li>
               <li>• Word format allows for easy editing</li>
               <li>• All formats are ATS-friendly</li>
