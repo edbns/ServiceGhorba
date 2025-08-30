@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 
 export type CVFormat =
   | 'canada_resume'
@@ -75,6 +76,7 @@ interface CVFormatSelectorProps {
 }
 
 export default function CVFormatSelector({ value, onChange, className = '' }: CVFormatSelectorProps) {
+  const { t } = useSimpleTranslation();
   const formatCategories = {
     'Service & Entry Level': ['basic_worker', 'delivery_driver', 'waiter_service', 'construction_cv', 'kitchen_helper', 'cleaner_cv'],
     'Regional Formats': ['canada_resume', 'us_resume', 'uk_cv', 'germany_cv', 'japan_rirekisho', 'australia_resume', 'europass', 'europe_custom'],
@@ -85,7 +87,7 @@ export default function CVFormatSelector({ value, onChange, className = '' }: CV
     <div className={`space-y-6 ${className}`}>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-4">
-          Choose CV Format
+          {t('formats.choose_format')}
         </label>
         
         {Object.entries(formatCategories).map(([category, formats]) => (

@@ -33,14 +33,81 @@ const translations = {
     
     // Export
     'export.title': 'Export Your CV',
+    'export.pdf': 'PDF',
+    'export.word': 'Word', 
+    'export.text': 'Text',
+    'export.markdown': 'Markdown',
     'export.share_whatsapp': 'Share on WhatsApp',
     'export.tips': 'Export Tips',
+    'export.best_for_applications': 'PDF is recommended for job applications',
+    'export.editable_format': 'Word format allows for easy editing',
+    'export.ats_friendly': 'All formats are ATS-friendly',
+    
+    // CV Formats
+    'formats.choose_format': 'Choose CV Format',
+    'formats.choose_theme': 'Choose Export Theme',
+    'formats.choose_language': 'Choose Export Language',
+    'formats.format_info': 'Format Information',
+    'formats.theme_info': 'Theme Information',
+    'formats.language_info': 'Language Support',
+    
+    // Helper Tools
+    'tools.country_selector': 'Where are you applying?',
+    'tools.country_subtitle': 'We\'ll recommend the best CV format for your target country',
+    'tools.job_templates': 'Quick Job Templates',
+    'tools.job_subtitle': 'Choose your job type to get started with professional examples',
+    'tools.skill_translator': 'Skill Translator',
+    'tools.skill_subtitle': 'Tell us about your job and we\'ll turn it into professional skills for your CV',
+    'tools.translate_skills': 'Turn Into Professional Skills',
+    'tools.translating': 'Translating to professional skills...',
+    'tools.your_skills': 'Your Professional Skills:',
+    
+    // Result Page
+    'result.title': 'Your {{type}} is Ready!',
+    'result.subtitle': 'Review your document below and export it in your preferred format',
+    'result.actions': 'Actions',
+    'result.edit_content': 'Edit Content',
+    'result.improve_ai': 'Improve with AI',
+    'result.create_new': 'Create New Document',
+    'result.pro_tips': 'Pro Tips',
+    
+    // Review Page
+    'review.title': 'AI CV Review',
+    'review.subtitle': 'Get instant feedback on your existing CV and learn how to improve it',
+    'review.paste_cv': 'Paste your CV text here',
+    'review.review_button': 'Review My CV',
+    'review.reviewing': 'AI is reviewing your CV...',
+    'review.overall_score': 'Overall Score',
+    'review.working_well': 'What\'s Working Well',
+    'review.improvements': 'Areas for Improvement',
+    'review.suggestions': 'Improvement Suggestions',
+    
+    // Common
+    'common.loading': 'Loading...',
+    'common.error': 'Error',
+    'common.success': 'Success',
+    'common.cancel': 'Cancel',
+    'common.save': 'Save',
+    'common.edit': 'Edit',
+    'common.delete': 'Delete',
+    'common.continue': 'Continue',
+    'common.back': 'Back',
+    'common.next': 'Next',
+    'common.generating': 'Generating...',
+    'common.perfect': 'Perfect!',
+    'common.format_selected': 'Format Selected',
     
     // Buddy Mode
     'buddy.title': 'Helping someone create their CV?',
     'buddy.subtitle': 'You\'re making a real difference in someone\'s career. Let\'s build something great together!',
     'buddy.enable': 'Enable Helper Mode',
-    'buddy.enabled': 'Helper Mode On'
+    'buddy.enabled': 'Helper Mode On',
+    'buddy.tips_title': 'Helper Tips:',
+    'buddy.tip1': 'Encourage them to speak about their achievements, not just duties',
+    'buddy.tip2': 'Help them think of specific examples and numbers',
+    'buddy.tip3': 'Remind them that every job has valuable skills',
+    'buddy.tip4': 'Use the voice input feature if typing is difficult',
+    'buddy.tip5': 'Take breaks and be patient - this is important work'
   },
   
   fr: {
@@ -73,8 +140,23 @@ const translations = {
     
     // Export
     'export.title': 'Exporter votre CV',
+    'export.pdf': 'PDF',
+    'export.word': 'Word',
+    'export.text': 'Texte', 
+    'export.markdown': 'Markdown',
     'export.share_whatsapp': 'Partager sur WhatsApp',
     'export.tips': 'Conseils d\'exportation',
+    'export.best_for_applications': 'Le PDF est recommandé pour les candidatures',
+    'export.editable_format': 'Le format Word permet une édition facile',
+    'export.ats_friendly': 'Tous les formats sont compatibles ATS',
+    
+    // CV Formats
+    'formats.choose_format': 'Choisir le format CV',
+    'formats.choose_theme': 'Choisir le thème d\'exportation',
+    'formats.choose_language': 'Choisir la langue d\'exportation',
+    'formats.format_info': 'Informations sur le format',
+    'formats.theme_info': 'Informations sur le thème',
+    'formats.language_info': 'Support linguistique',
     
     // Buddy Mode
     'buddy.title': 'Vous aidez quelqu\'un à créer son CV?',
@@ -113,8 +195,23 @@ const translations = {
     
     // Export
     'export.title': 'تصدير سيرتك الذاتية',
+    'export.pdf': 'PDF',
+    'export.word': 'Word',
+    'export.text': 'نص',
+    'export.markdown': 'Markdown', 
     'export.share_whatsapp': 'مشاركة على واتساب',
     'export.tips': 'نصائح التصدير',
+    'export.best_for_applications': 'يُنصح بـ PDF للتقديمات الوظيفية',
+    'export.editable_format': 'تنسيق Word يسمح بالتعديل السهل',
+    'export.ats_friendly': 'جميع التنسيقات متوافقة مع ATS',
+    
+    // CV Formats
+    'formats.choose_format': 'اختر تنسيق السيرة الذاتية',
+    'formats.choose_theme': 'اختر موضوع التصدير',
+    'formats.choose_language': 'اختر لغة التصدير',
+    'formats.format_info': 'معلومات التنسيق',
+    'formats.theme_info': 'معلومات الموضوع',
+    'formats.language_info': 'الدعم اللغوي',
     
     // Buddy Mode
     'buddy.title': 'تساعد شخصاً في إنشاء سيرته الذاتية؟',
