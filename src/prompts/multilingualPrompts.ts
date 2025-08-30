@@ -25,15 +25,5 @@ export const multilingualCVPrompts = {
     { key: 'education', question: 'Indiquez vos diplômes et établissements.', type: 'textarea' as const, placeholder: 'Listez vos diplômes...' },
     { key: 'languages', question: 'Langues parlées (optionnel).', type: 'text' as const, placeholder: 'ex., Français, Anglais' },
     { key: 'extra', question: 'Autre chose ? Certifications, loisirs... (optionnel)', type: 'textarea' as const, placeholder: 'Informations supplémentaires...' },
-  ],
-  ar: [
-    { key: 'name', question: 'ما هو اسمك الكامل؟', type: 'text' as const, placeholder: 'مثال، أحمد محمد' },
-    { key: 'title', question: 'ما هو المسمى الوظيفي أو الدور الذي تستهدفه؟', type: 'text' as const, placeholder: 'مثال، مهندس برمجيات' },
-    { key: 'summary', question: 'اكتب ملخصًا قصيرًا عن نفسك (2-3 جمل).', type: 'textarea' as const, placeholder: 'صف خلفيتك المهنية...' },
-    { key: 'skills', question: 'اكتب المهارات الرئيسية (مفصولة بفواصل).', type: 'textarea' as const, placeholder: 'مثال، JavaScript، التواصل' },
-    { key: 'experience', question: 'صف خبرتك العملية.', type: 'textarea' as const, placeholder: 'اذكر خبراتك العملية...' },
-    { key: 'education', question: 'اكتب تعليمك، أسماء المدارس، الدرجات والتواريخ.', type: 'textarea' as const, placeholder: 'اذكر تعليمك...' },
-    { key: 'languages', question: 'اللغات التي تتحدثها (اختياري).', type: 'text' as const, placeholder: 'مثال، العربية، الإنجليزية' },
-    { key: 'extra', question: 'أي شيء آخر؟ الشهادات، الهوايات، إلخ (اختياري)', type: 'textarea' as const, placeholder: 'معلومات إضافية...' },
-  ],
+  ]
 };

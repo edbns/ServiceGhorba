@@ -123,10 +123,7 @@ export default function QuickJobSelector({ onJobSelected, className = '' }: Quic
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6" />
         </svg>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('tools.job_templates')}</h3>
-          <p className="text-sm text-gray-600">
-            {t('tools.job_subtitle')}
-          </p>
+          <h3 className="text-lg font-semibold text-gray-900">{t('tools.job_templates')}</h3>
         </div>
       </div>
 

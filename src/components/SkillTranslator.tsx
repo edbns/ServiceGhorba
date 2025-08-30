@@ -108,10 +108,7 @@ export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) 
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('tools.skill_translator')}</h3>
-          <p className="text-sm text-gray-600">
-            {t('tools.skill_subtitle')}
-          </p>
+          <h3 className="text-lg font-semibold text-gray-900">{t('tools.skill_translator')}</h3>
         </div>
       </div>
 

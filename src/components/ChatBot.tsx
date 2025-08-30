@@ -55,7 +55,7 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
       prompts = basicWorkerPrompts; // Keep basic worker prompts in English for now
     } else {
       // Use consolidated multilingual prompts
-      prompts = multilingualCVPrompts[language] || multilingualCVPrompts.en;
+      prompts = multilingualCVPrompts[language as 'en' | 'fr'] || multilingualCVPrompts.en;
     }
   } else {
     // For motivation letters, use simple prompts if simple style is selected

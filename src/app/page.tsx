@@ -10,7 +10,7 @@ import QuickJobSelector, { JobTemplate } from '@/components/QuickJobSelector';
 import SkillTranslator from '@/components/SkillTranslator';
 import CountryBasedSelector from '@/components/CountryBasedSelector';
 import UploadForm from '@/components/UploadForm';
-import SimpleLanguageSelector from '@/components/SimpleLanguageSelector';
+import InlineLanguageSelector from '@/components/InlineLanguageSelector';
 import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData } from '@/utils/formatHelpers';
 
@@ -71,7 +71,7 @@ export default function HomePage() {
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 {t('nav.blog')}
               </Link>
-              <SimpleLanguageSelector />
+              <InlineLanguageSelector />
             </div>
           </div>
         </div>
