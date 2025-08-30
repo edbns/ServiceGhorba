@@ -244,7 +244,7 @@ Use our AI generator to craft a personalized motivation letter that captures you
           <div className="container">
             <div className="flex justify-between items-center h-20">
               <div className="flex items-center">
-                <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
+                <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
               </div>
               <div className="flex items-center space-x-8">
                 <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
@@ -309,7 +309,7 @@ Use our AI generator to craft a personalized motivation letter that captures you
         <div className="container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
+              <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
             </div>
             <div className="flex items-center space-x-8">
               <Link href="/" className="text-gray-600 hover:text-primary transition-colors font-medium">

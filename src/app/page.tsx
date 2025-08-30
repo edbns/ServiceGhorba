@@ -1,15 +1,61 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ChatBot from '@/components/ChatBot';
+import CVFormatSelector, { CVFormat } from '@/components/CVFormatSelector';
+import BuddyModeBanner from '@/components/BuddyModeBanner';
+import QuickJobSelector, { JobTemplate } from '@/components/QuickJobSelector';
+import SkillTranslator from '@/components/SkillTranslator';
+import CountryBasedSelector from '@/components/CountryBasedSelector';
+import UploadForm from '@/components/UploadForm';
+import { CVData } from '@/utils/formatHelpers';
 
 export default function HomePage() {
+  const router = useRouter();
+  const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
+  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter' | 'basic_motivation'>('cv');
+  const [initialData, setInitialData] = useState<Partial<CVData>>({});
+  const [showUpload, setShowUpload] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChatComplete = (generatedData: CVData) => {
+    // Store the generated data and navigate to result page
+    sessionStorage.setItem('generatedCV', JSON.stringify(generatedData));
+    sessionStorage.setItem('selectedFormat', selectedFormat);
+    sessionStorage.setItem('documentType', documentType);
+    router.push('/result');
+  };
+
+  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter' | 'basic_motivation') => {
+    setDocumentType(newType);
+    setInitialData({});
+  };
+
+  const handleFileProcessed = (data: Partial<CVData>) => {
+    setInitialData(data);
+    setError(null);
+    setShowUpload(false);
+    // Auto-switch to CV mode when file is uploaded
+    setDocumentType('cv');
+  };
+
+  const handleError = (errorMessage: string) => {
+    setError(errorMessage);
+  };
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
+      {/* Buddy Mode Banner */}
+      <BuddyModeBanner />
+      
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-100">
         <div className="container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
+              <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
             </div>
             <div className="flex items-center space-x-8">
               <Link href="/review" className="text-gray-600 hover:text-primary transition-colors font-medium">
@@ -26,87 +72,135 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="container">
-        <div className="max-w-4xl mx-auto text-center pt-20 pb-16">
-          <h1 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">
-            Professional CVs
-            <span className="block text-primary font-normal">Powered by AI</span>
-          </h1>
-          <p className="text-xl text-gray-500 mb-16 max-w-2xl mx-auto leading-relaxed">
-            Create stunning resumes and cover letters in minutes. Upload your existing CV or start fresh with our intelligent assistant.
-          </p>
-
-          {/* Main Actions */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
-            <Link href="/chat" className="w-full sm:w-auto">
-              <button className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-4 px-8 rounded-lg transition-all duration-200 flex items-center justify-center space-x-3">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                <span>Create from Scratch</span>
-              </button>
-            </Link>
-            
-            <Link href="/upload" className="w-full sm:w-auto">
-              <button className="w-full border border-gray-300 hover:border-primary text-gray-700 hover:text-primary font-medium py-4 px-8 rounded-lg transition-all duration-200 flex items-center justify-center space-x-3">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
-                <span>Upload Existing CV</span>
-              </button>
-            </Link>
-            
-            <Link href="/chat?type=basic_motivation" className="w-full sm:w-auto">
-              <button className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-medium py-4 px-8 rounded-lg transition-all duration-200 flex items-center justify-center space-x-3">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <span>Simple Letter</span>
-              </button>
-            </Link>
+      <div className="container py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-light text-gray-900 mb-4 tracking-tight">
+              Create Your Professional Documents
+            </h1>
+            <p className="text-lg text-gray-600">
+              Build CVs, cover letters, and motivation letters with AI assistance
+            </p>
           </div>
-        </div>
 
-        {/* Features Grid */}
-        <div className="max-w-6xl mx-auto pb-20">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-8">
-              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          {/* Error Display */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+              <div className="flex items-center space-x-3">
+                <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
+                <p className="text-red-800">{error}</p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Regional Compliance</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Automatically format your CV for Canadian, European, or other regional standards
-              </p>
             </div>
+          )}
 
-            <div className="text-center p-8">
-              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Multiple Formats</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Export as PDF, Word, Markdown, or plain text for any application requirement
-              </p>
-            </div>
-
-            <div className="text-center p-8">
-              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Instant Results</h3>
-              <p className="text-gray-600 leading-relaxed">
-                No registration required. Create and download your professional CV immediately
-              </p>
+          {/* Document Type Selector */}
+          <div className="flex justify-center mb-8">
+            <div className="bg-white rounded-lg border border-gray-200 p-2 inline-flex">
+              <button
+                onClick={() => handleDocumentTypeChange('cv')}
+                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
+                  documentType === 'cv'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                CV / Resume
+              </button>
+              <button
+                onClick={() => handleDocumentTypeChange('motivation_letter')}
+                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
+                  documentType === 'motivation_letter'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Cover Letter
+              </button>
+              <button
+                onClick={() => handleDocumentTypeChange('basic_motivation')}
+                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
+                  documentType === 'basic_motivation'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Simple Letter
+              </button>
             </div>
           </div>
+
+          {/* Upload Section */}
+          {documentType === 'cv' && (
+            <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Have an existing CV?</h3>
+                <button
+                  onClick={() => setShowUpload(!showUpload)}
+                  className="text-primary hover:text-primary-dark font-medium"
+                >
+                  {showUpload ? 'Hide Upload' : 'Upload & Improve'}
+                </button>
+              </div>
+              
+              {showUpload && (
+                <UploadForm 
+                  onFileProcessed={handleFileProcessed}
+                  onError={handleError}
+                />
+              )}
+            </div>
+          )}
+
+          {/* Format Selector for CV */}
+          {documentType === 'cv' && (
+            <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+              <CVFormatSelector
+                value={selectedFormat}
+                onChange={setSelectedFormat}
+              />
+            </div>
+          )}
+
+          {/* Helper Tools for CV */}
+          {documentType === 'cv' && (
+            <>
+              <CountryBasedSelector
+                onCountrySelected={(format) => {
+                  setSelectedFormat(format);
+                }}
+              />
+              
+              <QuickJobSelector
+                onJobSelected={(template: JobTemplate) => {
+                  setInitialData(prev => ({
+                    ...prev,
+                    title: template.title,
+                    summary: template.summary,
+                    skills: template.skills
+                  }));
+                }}
+              />
+              
+              <SkillTranslator
+                onTranslated={(skills: string[]) => {
+                  setInitialData(prev => ({
+                    ...prev,
+                    skills: [...(prev.skills || []), ...skills]
+                  }));
+                }}
+              />
+            </>
+          )}
+
+          {/* Chat Interface */}
+          <ChatBot
+            type={documentType}
+            format={selectedFormat}
+            onComplete={handleChatComplete}
+            initialData={initialData}
+          />
         </div>
       </div>
     </div>

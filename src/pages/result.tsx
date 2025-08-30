@@ -140,7 +140,7 @@ export default function ResultPage() {
         <div className="container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <img src="/logo.svg" alt="AI CV Generator" className="h-8 w-auto" />
+              <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
             </div>
             <div className="flex items-center space-x-8">
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
@@ -232,7 +232,7 @@ export default function ResultPage() {
                     <span>Improve with AI</span>
                   </button>
                   
-                  <Link href="/chat" className="block w-full">
+                  <Link href="/" className="block w-full">
                     <button className="w-full border border-gray-300 hover:border-primary text-gray-700 hover:text-primary font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
