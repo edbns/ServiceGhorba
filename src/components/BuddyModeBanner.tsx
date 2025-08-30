@@ -19,7 +19,7 @@ export default function BuddyModeBanner() {
               </svg>
               <div>
                 <h3 className="font-semibold">{t('buddy.title')}</h3>
-                <p className="text-sm opacity-90">{t('buddy.subtitle')}</p>
+
               </div>
             </div>
           </div>
