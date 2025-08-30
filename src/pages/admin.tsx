@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BlogPostEditor, { BlogPost } from '@/components/BlogPostEditor';
-import { isAuthenticated, login, logout } from '@/utils/auth';
+import AdminAuth from '@/components/AdminAuth';
+import { isAuthenticated, logout } from '@/utils/auth';
 
 export default function AdminPage() {
   const [isAuth, setIsAuth] = useState(false);
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [step, setStep] = useState<'email' | 'otp'>('email');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   
   // Blog management state
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -48,86 +44,14 @@ export default function AdminPage() {
     setPosts(samplePosts);
   };
 
-  const handleSendOTP = async () => {
-    if (!email) {
-      setError('Please enter your email address');
-      return;
-    }
-
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'send_otp',
-          email,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setStep('otp');
-      } else {
-        setError(result.error || 'Failed to send OTP');
-      }
-    } catch {
-      setError('Network error. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleVerifyOTP = async () => {
-    if (!otp) {
-      setError('Please enter the OTP');
-      return;
-    }
-
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'verify_otp',
-          email,
-          otp,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        login(result.token);
-        setIsAuth(true);
-        loadBlogPosts();
-      } else {
-        setError(result.error || 'Invalid OTP');
-      }
-    } catch {
-      setError('Network error. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+  const handleAuthenticated = () => {
+    setIsAuth(true);
+    loadBlogPosts();
   };
 
   const handleLogout = () => {
     logout();
     setIsAuth(false);
-    setEmail('');
-    setOtp('');
-    setStep('email');
-    setError('');
   };
 
   const handleSavePost = async (post: BlogPost) => {
@@ -152,118 +76,7 @@ export default function AdminPage() {
 
   // Login form
   if (!isAuth) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        {/* Navigation */}
-        <nav className="bg-white">
-          <div className="container">
-            <div className="flex justify-between items-center h-20">
-              <div className="flex items-center">
-                <Link href="/">
-                  <img src="/logoTrans.png" alt="Logo" className="h-10 w-auto cursor-pointer" />
-                </Link>
-              </div>
-              <div className="flex items-center space-x-8">
-                <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                  Blog
-                </Link>
-                <Link href="/" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                  Back to Home
-                </Link>
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        <div className="container py-12">
-          <div className="max-w-md mx-auto">
-            <div className="card">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
-                <p className="text-gray-600 mt-2">
-                  {step === 'email' 
-                    ? 'Enter your email to receive a login code'
-                    : 'Enter the code sent to your email'
-                  }
-                </p>
-              </div>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                  <p className="text-red-800">{error}</p>
-                </div>
-              )}
-
-              <div className="space-y-6">
-                {step === 'email' ? (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="input-field"
-                        placeholder="admin@example.com"
-                        onKeyPress={(e) => e.key === 'Enter' && handleSendOTP()}
-                      />
-                    </div>
-                    <button
-                      onClick={handleSendOTP}
-                      disabled={isLoading || !email}
-                      className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isLoading ? 'Sending...' : 'Send Login Code'}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Enter 6-digit code
-                      </label>
-                      <input
-                        type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                        className="input-field text-center text-2xl tracking-widest"
-                        placeholder="123456"
-                        maxLength={6}
-                        onKeyPress={(e) => e.key === 'Enter' && handleVerifyOTP()}
-                      />
-                    </div>
-                    <button
-                      onClick={handleVerifyOTP}
-                      disabled={isLoading || otp.length !== 6}
-                      className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isLoading ? 'Verifying...' : 'Login'}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setStep('email');
-                        setOtp('');
-                        setError('');
-                      }}
-                      className="w-full btn-secondary"
-                    >
-                      ← Back to Email
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <AdminAuth onAuthenticated={handleAuthenticated} />;
   }
 
   // Admin dashboard

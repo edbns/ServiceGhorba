@@ -68,9 +68,6 @@ export default function HomePage() {
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 Blog
               </Link>
-              <Link href="/admin" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                Admin
-              </Link>
             </div>
           </div>
         </div>

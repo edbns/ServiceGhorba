@@ -317,9 +317,6 @@ Use our AI generator to craft a personalized motivation letter that captures you
               <Link href="/" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 Home
               </Link>
-              <Link href="/admin" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                Admin
-              </Link>
             </div>
           </div>
         </div>

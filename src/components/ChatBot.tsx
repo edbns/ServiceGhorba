@@ -353,12 +353,10 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
               
               <button
                 onClick={handleSkip}
-                className="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors"
+                className="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors text-sm font-medium"
                 title="Skip this question"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                Skip
               </button>
               
               <button

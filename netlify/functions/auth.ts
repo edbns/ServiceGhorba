@@ -36,9 +36,49 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { action, email, otp } = JSON.parse(event.body || '{}');
+    const { action, email, otp, secret } = JSON.parse(event.body || '{}');
 
     switch (action) {
+      case 'verify_secret': {
+        if (!secret) {
+          return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({ error: 'Secret key is required' }),
+          };
+        }
+
+        const adminSecret = process.env.ADMIN_SECRET;
+        if (!adminSecret) {
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({ error: 'Admin secret not configured' }),
+          };
+        }
+
+        if (secret !== adminSecret) {
+          return {
+            statusCode: 403,
+            headers,
+            body: JSON.stringify({ error: 'Invalid secret key' }),
+          };
+        }
+
+        // Generate JWT token for admin access
+        const token = generateJWT('admin');
+
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({ 
+            success: true, 
+            token,
+            message: 'Admin access granted' 
+          }),
+        };
+      }
+
       case 'send_otp': {
         if (!email) {
           return {
