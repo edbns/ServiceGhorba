@@ -138,13 +138,13 @@ export default function ResultPage() {
       {/* Navigation */}
       <nav className="bg-white">
         <div className="container">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center">
+          <div className="header-container flex justify-between items-center h-20">
+            <div className="header-logo flex items-center">
               <Link href="/">
                 <img src="/logoTrans.png" alt="Logo" className="h-10 w-auto cursor-pointer" />
               </Link>
             </div>
-            <div className="flex items-center space-x-8">
+            <div className="header-nav flex items-center space-x-8">
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 Blog
               </Link>

@@ -58,13 +58,13 @@ export default function HomePage() {
         {/* Navigation */}
       <nav className="bg-white">
         <div className="container">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center">
+          <div className="header-container flex justify-between items-center h-20">
+            <div className="header-logo flex items-center">
               <Link href="/">
                 <img src="/logoTrans.png" alt="Logo" className="h-10 w-auto cursor-pointer" />
               </Link>
             </div>
-            <div className="flex items-center space-x-8">
+            <div className="header-nav flex items-center space-x-8">
               <Link href="/review" className="text-gray-600 hover:text-primary transition-colors font-medium">
                 {t('nav.review')}
               </Link>
@@ -77,7 +77,7 @@ export default function HomePage() {
         </div>
       </nav>
 
-      <div className="container py-16">
+      <div className="main-container container py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-light text-gray-900 mb-4 tracking-tight">

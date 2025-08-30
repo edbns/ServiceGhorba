@@ -282,7 +282,7 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
               key={index}
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`flex items-start space-x-3 max-w-xs lg:max-w-md ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+              <div className={`flex items-start space-x-3 max-w-xs lg:max-w-md ${message.role === 'user' ? 'flex-row-reverse space-x-reverse chat-message-user' : 'chat-message-assistant'}`}>
                 {/* Avatar */}
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                   message.role === 'user' 
@@ -315,7 +315,7 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
 
         {/* Input Area */}
         <div className="border-t border-gray-200 p-4">
-          <div className="flex items-end space-x-3">
+          <div className="btn-group flex items-end space-x-3">
             <div className="flex-1">
               {currentPrompt?.type === 'textarea' ? (
                 <textarea
@@ -343,7 +343,7 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
               )}
             </div>
             
-            <div className="flex space-x-2">
+            <div className="btn-group flex space-x-2">
               {speechSupported && (
                 <button
                   onClick={startListening}
