@@ -86,6 +86,108 @@ export const guidedCVPrompts: ChatPrompt[] = [
   }
 ];
 
+export const basicWorkerPrompts: ChatPrompt[] = [
+  { 
+    key: 'name', 
+    question: 'What is your full name?',
+    type: 'text',
+    placeholder: 'e.g., Maria Garcia'
+  },
+  { 
+    key: 'phone', 
+    question: 'What is your phone number?',
+    type: 'text',
+    placeholder: 'e.g., (555) 123-4567'
+  },
+  { 
+    key: 'email', 
+    question: 'What is your email address?',
+    type: 'text',
+    placeholder: 'e.g., maria.garcia@email.com'
+  },
+  { 
+    key: 'location', 
+    question: 'Where do you live? (City and state/province)',
+    type: 'text',
+    placeholder: 'e.g., Toronto, ON or Los Angeles, CA'
+  },
+  { 
+    key: 'job_wanted', 
+    question: 'What type of job are you looking for?',
+    type: 'text',
+    placeholder: 'e.g., Restaurant Server, Delivery Driver, Construction Worker'
+  },
+  { 
+    key: 'work_experience', 
+    question: 'Tell me about your work experience. What jobs have you had?',
+    type: 'textarea',
+    placeholder: 'List your jobs: Job title, where you worked, how long, and what you did well...'
+  },
+  { 
+    key: 'skills', 
+    question: 'What are you good at? (work skills)',
+    type: 'textarea',
+    placeholder: 'e.g., Good with customers, Fast learner, Reliable, Good at teamwork, Can lift heavy things'
+  },
+  { 
+    key: 'availability', 
+    question: 'When can you work?',
+    type: 'text',
+    placeholder: 'e.g., Any time, Weekends only, Monday to Friday, Flexible schedule'
+  },
+  { 
+    key: 'transportation', 
+    question: 'How do you get to work?',
+    type: 'text',
+    placeholder: 'e.g., Own car, Public transport, Bicycle, Can get rides'
+  },
+  { 
+    key: 'languages', 
+    question: 'What languages do you speak? (optional)',
+    type: 'text',
+    placeholder: 'e.g., English and Spanish, Tagalog and English'
+  },
+  { 
+    key: 'reference', 
+    question: 'Do you have a reference from a previous job? (optional)',
+    type: 'textarea',
+    placeholder: 'Name, job title, company, phone number, and how they know your work...'
+  }
+];
+
+export const guidedMotivationPrompts: ChatPrompt[] = [
+  { 
+    key: 'intro', 
+    question: 'Tell us a little about yourself.',
+    type: 'textarea',
+    placeholder: 'Share a bit about who you are and what kind of person you are...'
+  },
+  { 
+    key: 'why', 
+    question: 'Why are you interested in this job?',
+    type: 'textarea',
+    placeholder: 'What attracts you to this position or company?'
+  },
+  { 
+    key: 'pride', 
+    question: 'What\'s something you\'re proud of from a past job?',
+    type: 'textarea',
+    placeholder: 'Share an achievement or moment when you did really well at work...'
+  },
+  { 
+    key: 'reliable', 
+    question: 'What makes you reliable or easy to work with?',
+    type: 'textarea',
+    placeholder: 'Describe your work style and what makes you a good team member...'
+  },
+  { 
+    key: 'commitment', 
+    question: 'Why should we hire you for this position?',
+    type: 'textarea',
+    placeholder: 'What makes you the right person for this job?'
+  }
+];
+
 export const motivationLetterPrompts: ChatPrompt[] = [
   {
     key: 'company',

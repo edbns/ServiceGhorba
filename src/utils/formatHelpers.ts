@@ -10,7 +10,13 @@ export type CVFormat =
   | 'australia_resume'
   | 'academic_cv'
   | 'creative_portfolio'
-  | 'tech_resume';
+  | 'tech_resume'
+  | 'basic_worker'
+  | 'delivery_driver'
+  | 'waiter_service'
+  | 'construction_cv'
+  | 'kitchen_helper'
+  | 'cleaner_cv';
 
 export type ExportTheme =
   | 'clean'
@@ -19,7 +25,18 @@ export type ExportTheme =
   | 'minimal_line'
   | 'modern_typo'
   | 'euro_cv'
-  | 'visual';
+  | 'visual'
+  | 'basic_worker_layout';
+
+export type ExportLanguage =
+  | 'english'
+  | 'spanish'
+  | 'french'
+  | 'tagalog'
+  | 'bengali'
+  | 'indonesian';
+
+export type CVMode = 'professional' | 'basic';
 
 export interface CVData {
   name?: string;
@@ -69,6 +86,19 @@ export interface CVData {
   };
   requirePhoto?: boolean;
   preferredFormat?: string;
+  jobReference?: {
+    name: string;
+    title: string;
+    company: string;
+    phone: string;
+    email?: string;
+    relationship: string;
+  };
+  visualProof?: string[]; // URLs to certificates, ID, uniform photos
+  availability?: string;
+  transportation?: string;
+  workAuthorization?: string;
+  basicMode?: boolean;
 }
 
 export function applyFormatRules(cvData: CVData, format: CVFormat): CVData {
@@ -165,6 +195,53 @@ export function applyFormatRules(cvData: CVData, format: CVFormat): CVData {
     case 'europe_custom': {
       // European custom format - all fields optional
       clone.preferredFormat = 'Flexible European format';
+      break;
+    }
+    case 'basic_worker': {
+      // Simple format for entry-level positions
+      clone.basicMode = true;
+      delete clone.publications;
+      delete clone.awards;
+      clone.preferredFormat = 'Simple, easy-to-read format for any job';
+      break;
+    }
+    case 'delivery_driver': {
+      // Focus on reliability, driving record, availability
+      clone.basicMode = true;
+      delete clone.publications;
+      delete clone.awards;
+      clone.preferredFormat = 'Delivery and transportation focus';
+      break;
+    }
+    case 'waiter_service': {
+      // Customer service focus, flexibility, teamwork
+      clone.basicMode = true;
+      delete clone.publications;
+      delete clone.awards;
+      clone.preferredFormat = 'Customer service and hospitality focus';
+      break;
+    }
+    case 'construction_cv': {
+      // Safety certifications, physical capabilities, experience
+      clone.basicMode = true;
+      delete clone.publications;
+      clone.preferredFormat = 'Construction and labor focus with safety emphasis';
+      break;
+    }
+    case 'kitchen_helper': {
+      // Food safety, teamwork, reliability
+      clone.basicMode = true;
+      delete clone.publications;
+      delete clone.awards;
+      clone.preferredFormat = 'Kitchen and food service focus';
+      break;
+    }
+    case 'cleaner_cv': {
+      // Attention to detail, reliability, trustworthiness
+      clone.basicMode = true;
+      delete clone.publications;
+      delete clone.awards;
+      clone.preferredFormat = 'Cleaning and maintenance focus';
       break;
     }
     default: 

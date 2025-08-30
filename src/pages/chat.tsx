@@ -9,7 +9,7 @@ export default function ChatPage() {
   const router = useRouter();
   const { mode, type } = router.query;
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
-  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
+  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter' | 'basic_motivation'>('cv');
   const [initialData, setInitialData] = useState<Partial<CVData>>({});
 
 
@@ -29,6 +29,8 @@ export default function ChatPage() {
     // Set document type from query params
     if (type === 'motivation_letter') {
       setDocumentType('motivation_letter');
+    } else if (type === 'basic_motivation') {
+      setDocumentType('basic_motivation');
     }
   }, [type]);
 
@@ -40,7 +42,7 @@ export default function ChatPage() {
     router.push('/result');
   };
 
-  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter') => {
+  const handleDocumentTypeChange = (newType: 'cv' | 'motivation_letter' | 'basic_motivation') => {
     setDocumentType(newType);
     // Clear any existing data when switching types
     setInitialData({});
@@ -87,7 +89,7 @@ export default function ChatPage() {
             <div className="bg-white rounded-lg border border-gray-200 p-2 inline-flex">
               <button
                 onClick={() => handleDocumentTypeChange('cv')}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
                   documentType === 'cv'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
@@ -97,13 +99,23 @@ export default function ChatPage() {
               </button>
               <button
                 onClick={() => handleDocumentTypeChange('motivation_letter')}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
                   documentType === 'motivation_letter'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                Motivation Letter
+                Cover Letter
+              </button>
+              <button
+                onClick={() => handleDocumentTypeChange('basic_motivation')}
+                className={`px-4 py-3 rounded-lg font-medium transition-colors text-sm ${
+                  documentType === 'basic_motivation'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Simple Letter
               </button>
             </div>
           </div>
@@ -121,6 +133,7 @@ export default function ChatPage() {
           {/* Chat Interface */}
           <ChatBot
             type={documentType}
+            format={selectedFormat}
             onComplete={handleChatComplete}
             initialData={initialData}
           />

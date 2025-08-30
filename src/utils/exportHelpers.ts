@@ -527,6 +527,117 @@ export function buildExportHTML(data: CVData, theme: ExportTheme): string {
         </html>
       `;
 
+    case 'basic_worker_layout':
+      return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              font-size: 16px;
+              line-height: 1.8; 
+              color: #333; 
+              max-width: 800px; 
+              margin: 0 auto; 
+              padding: 30px;
+            }
+            .header { margin-bottom: 40px; }
+            .header h1 { 
+              font-size: 28px; 
+              font-weight: bold; 
+              margin: 0 0 10px 0;
+              color: #043fff;
+            }
+            .header h2 { 
+              font-size: 20px; 
+              font-weight: normal; 
+              margin: 0;
+              color: #666;
+            }
+            .section { 
+              margin-bottom: 35px; 
+              page-break-inside: avoid;
+            }
+            .section-title { 
+              font-size: 20px; 
+              font-weight: bold; 
+              margin-bottom: 20px;
+              color: #043fff;
+              border-bottom: 2px solid #043fff;
+              padding-bottom: 8px;
+            }
+            .contact-info { 
+              font-size: 16px; 
+              line-height: 1.6; 
+            }
+            .contact-item { 
+              margin-bottom: 8px; 
+              font-weight: 500;
+            }
+            .skills { 
+              display: block; 
+              line-height: 2;
+            }
+            .skill-tag { 
+              display: inline-block;
+              background: #f0f4ff; 
+              color: #043fff; 
+              padding: 6px 15px; 
+              margin: 5px 8px 5px 0; 
+              border-radius: 20px; 
+              font-size: 15px;
+              font-weight: 500;
+            }
+            .experience-item, .education-item { 
+              margin-bottom: 25px; 
+              page-break-inside: avoid;
+            }
+            .job-title { 
+              font-weight: bold; 
+              font-size: 18px; 
+              color: #043fff;
+              margin-bottom: 5px;
+            }
+            .company { 
+              font-size: 16px;
+              font-weight: 500; 
+              margin-bottom: 5px;
+            }
+            .date { 
+              color: #666; 
+              font-size: 15px; 
+              margin-bottom: 10px;
+            }
+            .description {
+              font-size: 16px;
+              line-height: 1.7;
+            }
+            @media print {
+              body { font-size: 14px; }
+              .header h1 { font-size: 24px; }
+              .section-title { font-size: 18px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${data.name || 'Your Name'}</h1>
+            ${data.title ? `<h2>${data.title}</h2>` : ''}
+          </div>
+          ${buildContactSection(data)}
+          ${buildSummarySection(data)}
+          ${buildSkillsSection(data)}
+          ${buildExperienceSection(data)}
+          ${buildEducationSection(data)}
+          ${buildLanguagesSection(data)}
+          ${buildExtrasSection(data)}
+          ${data.jobReference ? buildReferenceSection(data) : ''}
+        </body>
+        </html>
+      `;
+
     default:
       return buildExportHTML(data, 'clean');
   }
@@ -635,6 +746,23 @@ function buildExtrasSection(data: CVData, boxed = false): string {
     <div class="section">
       ${boxed ? '<div class="section-title">Additional Information</div>' : '<div class="section-title">Additional</div>'}
       <p>${data.extra}</p>
+    </div>
+  `;
+}
+
+function buildReferenceSection(data: CVData): string {
+  if (!data.jobReference) return '';
+  
+  return `
+    <div class="section">
+      <div class="section-title">Job Reference</div>
+      <div class="reference-item">
+        <div class="job-title">${data.jobReference.name}</div>
+        <div class="company">${data.jobReference.title} at ${data.jobReference.company}</div>
+        <div class="contact-item">Phone: ${data.jobReference.phone}</div>
+        ${data.jobReference.email ? `<div class="contact-item">Email: ${data.jobReference.email}</div>` : ''}
+        <div class="date">Relationship: ${data.jobReference.relationship}</div>
+      </div>
     </div>
   `;
 }

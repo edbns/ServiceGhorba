@@ -35,7 +35,7 @@ export default function HomePage() {
           </p>
 
           {/* Main Actions */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center max-w-lg mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
             <Link href="/chat" className="w-full sm:w-auto">
               <button className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-4 px-8 rounded-lg transition-all duration-200 flex items-center justify-center space-x-3">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,6 +51,15 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <span>Upload Existing CV</span>
+              </button>
+            </Link>
+            
+            <Link href="/chat?type=basic_motivation" className="w-full sm:w-auto">
+              <button className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-medium py-4 px-8 rounded-lg transition-all duration-200 flex items-center justify-center space-x-3">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span>Simple Letter</span>
               </button>
             </Link>
           </div>

@@ -5,6 +5,7 @@ import CVPreview from '@/components/CVPreview';
 import ExportButtons from '@/components/ExportButtons';
 import CVFormatSelector, { CVFormat } from '@/components/CVFormatSelector';
 import ExportThemeSelector, { ExportTheme } from '@/components/ExportThemeSelector';
+import ExportLanguageSelector, { ExportLanguage } from '@/components/ExportLanguageSelector';
 import { CVData, applyFormatRules } from '@/utils/formatHelpers';
 
 export default function ResultPage() {
@@ -12,7 +13,8 @@ export default function ResultPage() {
   const [cvData, setCvData] = useState<CVData | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
   const [selectedTheme, setSelectedTheme] = useState<ExportTheme>('clean');
-  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
+  const [selectedLanguage, setSelectedLanguage] = useState<ExportLanguage>('english');
+  const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter' | 'basic_motivation'>('cv');
   const [isEditing, setIsEditing] = useState(false);
   const [editableData, setEditableData] = useState<CVData | null>(null);
 
@@ -21,6 +23,7 @@ export default function ResultPage() {
     const generatedData = sessionStorage.getItem('generatedCV');
     const savedFormat = sessionStorage.getItem('selectedFormat');
     const savedTheme = sessionStorage.getItem('selectedTheme');
+    const savedLanguage = sessionStorage.getItem('selectedLanguage');
     const savedDocType = sessionStorage.getItem('documentType');
     
     if (generatedData) {
@@ -40,8 +43,12 @@ export default function ResultPage() {
       setSelectedTheme(savedTheme as ExportTheme);
     }
     
+    if (savedLanguage) {
+      setSelectedLanguage(savedLanguage as ExportLanguage);
+    }
+    
     if (savedDocType) {
-      setDocumentType(savedDocType as 'cv' | 'motivation_letter');
+      setDocumentType(savedDocType as 'cv' | 'motivation_letter' | 'basic_motivation');
     }
   }, [router]);
 
@@ -53,6 +60,11 @@ export default function ResultPage() {
   const handleThemeChange = (newTheme: ExportTheme) => {
     setSelectedTheme(newTheme);
     sessionStorage.setItem('selectedTheme', newTheme);
+  };
+
+  const handleLanguageChange = (newLanguage: ExportLanguage) => {
+    setSelectedLanguage(newLanguage);
+    sessionStorage.setItem('selectedLanguage', newLanguage);
   };
 
   const handleSaveEdits = () => {
@@ -173,6 +185,15 @@ export default function ResultPage() {
                 <ExportThemeSelector
                   value={selectedTheme}
                   onChange={handleThemeChange}
+                />
+              </div>
+
+              {/* Language Selector */}
+              <div className="card">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Export Language</h3>
+                <ExportLanguageSelector
+                  value={selectedLanguage}
+                  onChange={handleLanguageChange}
                 />
               </div>
 

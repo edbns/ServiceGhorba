@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { guidedCVPrompts, motivationLetterPrompts } from '@/prompts/cv_chat_prompts';
-import { CVData } from '@/utils/formatHelpers';
+import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
+import { CVData, CVFormat } from '@/utils/formatHelpers';
 
 interface ChatBotProps {
-  type: 'cv' | 'motivation_letter';
+  type: 'cv' | 'motivation_letter' | 'basic_motivation';
+  format?: CVFormat;
   onComplete: (data: CVData) => void;
   initialData?: Partial<CVData>;
 }
@@ -14,8 +15,18 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-export default function ChatBot({ type, onComplete, initialData = {} }: ChatBotProps) {
-  const prompts = type === 'cv' ? guidedCVPrompts : motivationLetterPrompts;
+export default function ChatBot({ type, format, onComplete, initialData = {} }: ChatBotProps) {
+  // Choose prompts based on type and format
+  let prompts;
+  if (type === 'cv') {
+    // Use basic prompts for service worker formats
+    const serviceWorkerFormats = ['basic_worker', 'delivery_driver', 'waiter_service', 'construction_cv', 'kitchen_helper', 'cleaner_cv'];
+    prompts = format && serviceWorkerFormats.includes(format) ? basicWorkerPrompts : guidedCVPrompts;
+  } else if (type === 'basic_motivation') {
+    prompts = guidedMotivationPrompts;
+  } else {
+    prompts = motivationLetterPrompts;
+  }
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [currentInput, setCurrentInput] = useState('');

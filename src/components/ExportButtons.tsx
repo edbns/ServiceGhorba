@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CVData, ExportTheme } from '@/utils/formatHelpers';
-import { exportAsText, exportAsMarkdown, exportAsDocx, exportAsPDF, buildExportHTML } from '@/utils/exportHelpers';
+import { exportAsText, exportAsMarkdown, exportAsDocx, exportAsPDF } from '@/utils/exportHelpers';
 
 interface ExportButtonsProps {
   cvData: CVData;
