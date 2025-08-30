@@ -11,9 +11,11 @@ import SkillTranslator from '@/components/SkillTranslator';
 import CountryBasedSelector from '@/components/CountryBasedSelector';
 import UploadForm from '@/components/UploadForm';
 import SimpleLanguageSelector from '@/components/SimpleLanguageSelector';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData } from '@/utils/formatHelpers';
 
 export default function HomePage() {
+  const { t } = useSimpleTranslation();
   const router = useRouter();
   const [selectedFormat, setSelectedFormat] = useState<CVFormat>('canada_resume');
   const [documentType, setDocumentType] = useState<'cv' | 'motivation_letter'>('cv');
@@ -64,10 +66,10 @@ export default function HomePage() {
             </div>
             <div className="flex items-center space-x-8">
               <Link href="/review" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                Review CV
+                {t('nav.review')}
               </Link>
               <Link href="/blog" className="text-gray-600 hover:text-primary transition-colors font-medium">
-                Blog
+                {t('nav.blog')}
               </Link>
               <SimpleLanguageSelector />
             </div>
@@ -79,10 +81,10 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-light text-gray-900 mb-4 tracking-tight">
-              Create Your Professional Documents
+              {t('home.title')}
             </h1>
             <p className="text-lg text-gray-600">
-              Build CVs, cover letters, and motivation letters with AI assistance
+              {t('home.subtitle')}
             </p>
           </div>
 
@@ -109,7 +111,7 @@ export default function HomePage() {
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                CV / Resume
+                {t('home.cv_resume')}
               </button>
               <button
                 onClick={() => handleDocumentTypeChange('motivation_letter')}
@@ -119,7 +121,7 @@ export default function HomePage() {
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                Cover Letter
+                {t('home.cover_letter')}
               </button>
             </div>
           </div>
@@ -136,7 +138,7 @@ export default function HomePage() {
                     className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                   />
                   <span className="text-sm font-medium text-gray-700">
-                    Keep it simple (for everyday jobs and easy reading)
+                    {t('home.simple_style')}
                   </span>
                 </label>
               </div>
@@ -147,12 +149,12 @@ export default function HomePage() {
           {documentType === 'cv' && (
             <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Have an existing CV?</h3>
+                <h3 className="text-lg font-semibold text-gray-900">{t('home.have_existing')}</h3>
                 <button
                   onClick={() => setShowUpload(!showUpload)}
                   className="text-primary hover:text-primary-dark font-medium"
                 >
-                  {showUpload ? 'Hide Upload' : 'Upload & Improve'}
+                  {showUpload ? t('home.hide_upload') : t('home.upload_improve')}
                 </button>
               </div>
               

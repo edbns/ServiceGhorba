@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
+import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData, CVFormat } from '@/utils/formatHelpers';
 
 // Speech Recognition types
@@ -41,6 +42,7 @@ interface ChatMessage {
 }
 
 export default function ChatBot({ type, format, simpleStyle = false, onComplete, initialData = {} }: ChatBotProps) {
+  const { t } = useSimpleTranslation();
   // Choose prompts based on type, format, and style
   let prompts;
   if (type === 'cv') {
@@ -356,7 +358,7 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
                 className="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors text-sm font-medium"
                 title="Skip this question"
               >
-                Skip
+                {t('chat.skip')}
               </button>
               
               <button
@@ -372,8 +374,8 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
           </div>
           
           <div className="flex justify-between items-center mt-2 text-xs text-gray-500">
-            <span>Step {currentStep + 1} of {prompts.length}</span>
-            <span>Press Enter to send, Shift+Enter for new line</span>
+            <span>{t('chat.step')} {currentStep + 1} {t('chat.of')} {prompts.length}</span>
+            <span>{t('chat.enter_send')}</span>
           </div>
         </div>
       </div>

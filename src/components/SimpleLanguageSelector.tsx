@@ -25,6 +25,9 @@ export default function SimpleLanguageSelector() {
     setLanguage(newLang);
     localStorage.setItem('ui_language', newLang);
     updateDocument(newLang);
+    
+    // Trigger custom event for other components to update
+    window.dispatchEvent(new Event('languageChange'));
   };
 
   const languages = [
