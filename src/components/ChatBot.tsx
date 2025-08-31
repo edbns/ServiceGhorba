@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
+import { guidedCVPrompts as guidedCVPrompts_fr } from '@/prompts/cv_chat_prompts.fr';
 import { multilingualCVPrompts } from '@/prompts/multilingualPrompts';
 import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData, CVFormat } from '@/utils/formatHelpers';
@@ -52,7 +53,8 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
     const serviceWorkerFormats = ['basic_worker', 'delivery_driver', 'waiter_service', 'construction_cv', 'kitchen_helper', 'cleaner_cv'];
     
     if (format && serviceWorkerFormats.includes(format)) {
-      prompts = basicWorkerPrompts; // Keep basic worker prompts in English for now
+      // For FR, prefer guided FR prompts to ensure natural language UX
+      prompts = (language === 'fr' ? guidedCVPrompts_fr : basicWorkerPrompts);
     } else {
       // Use consolidated multilingual prompts
       prompts = multilingualCVPrompts[language as 'en' | 'fr'] || multilingualCVPrompts.en;
@@ -99,10 +101,10 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
     setResponses(initialResponses);
     
     // Initialize first message
-    const documentName = type === 'cv' ? 'CV' : (simpleStyle ? 'simple cover letter' : 'cover letter');
+    const welcomeKey = type === 'cv' ? 'chat.welcome_cv' : 'chat.welcome_letter';
     setChatMessages([{
       role: 'assistant',
-      content: `Hello! I'm here to help you create a professional ${documentName}. Let's start with some basic information. ${prompts[0].question}`,
+      content: `${t(welcomeKey)} ${prompts[0].question}`,
       timestamp: new Date()
     }]);
 
@@ -124,7 +126,7 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
 
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = language === 'fr' ? 'fr-FR' : 'en-US';
 
     recognition.onstart = () => {
       setIsListening(true);
@@ -229,7 +231,8 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
         body: JSON.stringify({
           type: type === 'motivation_letter' && simpleStyle ? 'basic_motivation' : type,
           data: responses,
-          format: 'general'
+          format: 'general',
+          language
         }),
       });
 
@@ -315,16 +318,16 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
 
         {/* Input Area */}
         <div className="border-t border-gray-200 p-4">
-          <div className="btn-group flex items-end space-x-3">
-            <div className="flex-1">
+          <div className="flex items-end space-x-3">
+            <div className="relative flex-1">
               {currentPrompt?.type === 'textarea' ? (
                 <textarea
                   value={currentInput}
                   onChange={(e) => setCurrentInput(e.target.value)}
                   placeholder={currentPrompt.placeholder}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                  className="w-full pr-28 pl-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                   rows={3}
-                  onKeyPress={(e) => {
+                  onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
                       handleSendMessage();
@@ -337,47 +340,53 @@ export default function ChatBot({ type, format, simpleStyle = false, onComplete,
                   value={currentInput}
                   onChange={(e) => setCurrentInput(e.target.value)}
                   placeholder={currentPrompt?.placeholder || 'Type your response...'}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  className="w-full pr-28 pl-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
                 />
               )}
-            </div>
-            
-            <div className="btn-group flex space-x-2">
-              {speechSupported && (
+              <div className="absolute right-2 bottom-2 flex items-center space-x-1">
+                {speechSupported && (
+                  <button
+                    onClick={startListening}
+                    disabled={isListening}
+                    aria-label={isListening ? t('chat.listening') : t('chat.speak_answer')}
+                    title={isListening ? t('chat.listening') : t('chat.speak_answer')}
+                    className={`p-2 rounded-md transition-colors ${
+                      isListening ? 'bg-red-500 text-white' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14a3 3 0 01-3-3V7a3 3 0 116 0v4a3 3 0 01-3 3zm0 0v5m4-5a4 4 0 11-8 0" />
+                    </svg>
+                  </button>
+                )}
                 <button
-                  onClick={startListening}
-                  disabled={isListening}
-                  className={`px-4 py-3 rounded-lg transition-colors ${
-                    isListening 
-                      ? 'bg-red-500 text-white' 
-                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                  }`}
-                  title={isListening ? 'Listening...' : 'Speak your answer'}
+                  onClick={handleSkip}
+                  title={t('chat.skip')}
+                  aria-label={t('chat.skip')}
+                  className="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9l-2 3 2 3M14 9l2 3-2 3" />
                   </svg>
                 </button>
-              )}
-              
-              <button
-                onClick={handleSkip}
-                className="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors text-sm font-medium"
-                title="Skip this question"
-              >
-                {t('chat.skip')}
-              </button>
-              
-              <button
-                onClick={handleSendMessage}
-                disabled={!currentInput.trim()}
-                className="bg-primary hover:bg-primary-dark text-white p-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-              </button>
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!currentInput.trim()}
+                  aria-label={t('chat.send')}
+                  title={t('chat.send')}
+                  className="p-2 rounded-md bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12l14-7-7 14-2-5-5-2z" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
           
