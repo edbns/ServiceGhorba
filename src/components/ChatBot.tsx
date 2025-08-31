@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { guidedCVPrompts, motivationLetterPrompts, basicWorkerPrompts, guidedMotivationPrompts } from '@/prompts/cv_chat_prompts';
-import { guidedCVPrompts as guidedCVPrompts_fr } from '@/prompts/cv_chat_prompts.fr';
+import { guidedCVPrompts_fr } from '@/prompts/cv_chat_prompts.fr';
 import { multilingualCVPrompts } from '@/prompts/multilingualPrompts';
 import { useSimpleTranslation } from '@/hooks/useSimpleTranslation';
 import { CVData, CVFormat } from '@/utils/formatHelpers';

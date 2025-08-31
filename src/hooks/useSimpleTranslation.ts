@@ -24,11 +24,14 @@ const translations = {
     'chat.step': 'Step',
     'chat.of': 'of',
     'chat.skip': 'Skip',
+    'chat.send': 'Send',
     'chat.generating': 'Generating your',
     'chat.creating': 'Our AI is crafting your professional document...',
     'chat.enter_send': 'Press Enter to send, Shift+Enter for new line',
     'chat.speak_answer': 'Speak your answer',
     'chat.listening': 'Listening...',
+    'chat.welcome_cv': "Hello! I'm here to help you create a professional CV. Let's start with some basic information.",
+    'chat.welcome_letter': "Hello! I'm here to help you write a great cover letter. Let's start with some basic information.",
     
     // Export
     'export.title': 'Export Your CV',
@@ -147,11 +150,14 @@ const translations = {
     'chat.step': 'Étape',
     'chat.of': 'de',
     'chat.skip': 'Passer',
+    'chat.send': 'Envoyer',
     'chat.generating': 'Génération de votre',
     'chat.creating': 'Notre IA crée votre document professionnel...',
     'chat.enter_send': 'Appuyez sur Entrée pour envoyer, Maj+Entrée pour nouvelle ligne',
     'chat.speak_answer': 'Parlez votre réponse',
     'chat.listening': 'Écoute...',
+    'chat.welcome_cv': "Bonjour ! Je suis là pour vous aider à créer un CV professionnel. Commençons par quelques informations de base.",
+    'chat.welcome_letter': "Bonjour ! Je suis là pour vous aider à rédiger une belle lettre de motivation. Commençons par quelques informations de base.",
     
     // Export
     'export.title': 'Exporter votre CV',

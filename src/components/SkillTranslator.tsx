@@ -6,7 +6,7 @@ interface SkillTranslatorProps {
 }
 
 export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) {
-  const { t } = useSimpleTranslation();
+  const { t, language } = useSimpleTranslation();
   const [jobInput, setJobInput] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
   const [translatedSkills, setTranslatedSkills] = useState<string[]>([]);
@@ -81,6 +81,7 @@ export default function SkillTranslator({ onTranslated }: SkillTranslatorProps) 
           body: JSON.stringify({
             type: 'skill_translation',
             data: { jobDescription: jobInput },
+            language,
           }),
         });
 
